@@ -7,8 +7,17 @@
 
   <body>
 
+    <pre id="storyteller-stories" style="display:none">pie</pre>
     <pre id="easycoder-script" style="display:none">
-        location `https://easyaspie.netlify.app`
+
+      script Boot
+      variable Script
+      require js `https://easycoder.github.io/dist/plugins/showdown.js?v=` cat now
+
+      rest get Script from `https://cdn.jsdelivr.net/gh/easycoder/storyteller@master/storyteller.txt?v=` cat now
+!      rest get Script from `/storyteller.txt?` cat now
+      run Script
+
     </pre>
 
     <script type='text/javascript' src='https://easycoder.github.io/dist/easycoder.js?v=2.7.6'></script>
