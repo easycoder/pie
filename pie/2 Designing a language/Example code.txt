@@ -1,6 +1,6 @@
 # Example code
 
-Let's look at the kind of statements that would form part of an English-like programming language. I'll start with arithmetic. The language will handle integer 4-function arithmetic; add, subtract multiply and divide, plus modulo (remainder). Floating-point is only infrequently needed in general programming, and where it is there are ways of handling it without mixing it up with integer processing.
+Let's look at the kind of statements that would form part of an English-like programming language. I'll start with arithmetic. The language will handle integer 4-function arithmetic; add, subtract, multiply and divide, plus modulo (remainder). Floating-point is only infrequently needed in general programming, and where it is there are ways of handling it without mixing it up with integer processing.
 
 Before I launch into a description of the actual arithmetic functions I'll first introduce the notion of _constants_, _values_ and _variables_. These three can only be defined in terms of each other, so I'll take them in alphabetical order.
 

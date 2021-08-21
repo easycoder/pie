@@ -20,7 +20,7 @@ The syntax is of the type name followed by the name of the variable, which is ca
 
 Variables can start with default values or with no value at all, but the latter is preferable as it allows the runtime system to detect when a variable has been accessed before being assigned a value - a common programming mistake. The compiler should also save a flag into the record held for the variable, to be set when code is encountered that accesses the variable. This allows a check to run after compilation to discover unused variables. These are small points but they make life simpler for programmers.
 
-The primary core variable types hold numeric, string or boolean values. You can if you wish use distinct types for each of these, or you can use a single type that adapts itself to the data being placed in it. This is up to you, the designer of the language.
+The primary core variable types hold numeric, string or boolean values. You can, if you wish, use distinct types for each of these, or you can use a single type that adapts itself to the data being placed in it. This is up to you, the designer of the language.
 
 ## Arrays
 

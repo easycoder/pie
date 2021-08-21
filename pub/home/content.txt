@@ -1,0 +1,2193 @@
+~img:cookie.jpg:center 75%!nolink~
+
+# Programming In English
+
+This book describes how to build a versatile computer language whose scripts look like a series of step-by-step English commands with a syntax similar to cookery recipes, navigation instructions or car maintenance manuals. The syntax will be English stripped to the minimum; terse but understandable by anyone familiar with the problem domain. The environment will be that of a web browser and the language will be a comprehensive, capable and easy to use replacement for JavaScript, permitting scripts to be embedded in any web page then compiled and run on the fly as the page loads. Here is a list of key requirements:
+
+ - English-like scripts embedded in a web page or loaded via REST
+ - Able to handle any functionality provided by JavaScript
+ - No build tools required
+ - Compact and expressive - low memory usage
+ - Direct compilation in the browser with no perceptible delays
+ - Good runtime performance
+ - Extendable with plugins
+
+## Background
+
+Programming is about communication; specifically about getting computers to do things. I'm assuming that you, my reader, are a programmer and that among your circle of friends and aquaintances there are others with whom you share specialized skills you've worked long and hard to gain.
+
+You'll also know a lot of other people who aren't programmers, most of whom find your interests and skills baffling or even frightening. For them, computers are just tools to be used, preferably without the need to understand how they work any more than most of us know about what happens under the hood of a car, or indeed anywhere outside own own areas of speciality.
+
+Just as non-programmers find it hard to understand how programmers think, we often fail to fully appreciate the complexities of the world outside the computer, for which we build software systems. We have a regrettable tendency to disregard advice from users of a system because we all too often assume we know better than those users. Better understanding makes for better, more reliable software, and better communication is the key to better understanding.
+
+Computers are literal devices. They blindly follow the instructions given, without stopping to question if you really meant what you said. A programmer is someone who has the skill to create sets of instructions that are unambiguous, so the computer will do exactly what is intended. In order for this to happen, instructions are written in a computer _language_; a formal syntax that's understood by a computer and more importantly by the programmers tasked with ensuring the right things are done. Many computer languages have been invented, most of which are much more similar to each other than any of them are to human languages. And just as human language develops specialized dialects to suit the needs of a particular group, whether it be chemists, lawyers or footballers, new computer languages are always being created to provide a better match to problem domains of one kind or another.
+
+## Why is programming so difficult?
+ 
+Most if not all of our current computer languages are less than half a century old. Programming started by devising symbolic code that offered a human-readable alternative to coding in the hard-to-remember numbers required by the computing devices themselves. As time went by, more and more layers of abstraction were added, but in most cases they retained a fundamental characteristic, being more or less a system of mathematical symbols and expressions.
+ 
+Take a few lines of any computer program written in C/C++, Java, Python or JavaScript, and try to read it out loud. It's almost impossible to do it in such a way that another human being - even another programmer - can make sense of what you are saying. The only sensible way to communicate computer code to another person is in writing. And this is one reason why non-programmers find programming so difficult. We learn to speak before we learn to read; most of us can "hear" written text when we see it and many people sub-vocalize to help them process the meaning, without even being aware of it. For them, coding feels unnatural; something to be left to those strange geeks.
+ 
+It's all a matter of motivation. As programmers, you and I may be happy to live in a silent world of cryptic formulae and text, but the majority of people aren't built like that and for them it's a complete turn-off. It's not that they _can't_ become programmers; they just don't have any motivation for doing so. In fact, nearly everybody is a programmer, quite capable of handling cooking recipies or step by step car maintenance instructions that resemble simple computer programs. The human species developed complex societies long before we invented computer language. There were programmes long before there was programming. Lawyers and engineers have the mental discipline to organise facts in a coherent manner so that the outcome of an action can be safely predicted, but for some reason, when it comes to computers we assume it's necessary to use a way of expressing things that's competely alien to our natural modes of thinking. Small wonder there's a shortage of good programmers.
+ 
+It gets worse. Computer software is structurally complex, requiring a huge amount of training and experience to understand how a large program works or even where it begins. As a result, maintenance is often a time bomb waiting to blow up big systems. By the time a few years have passed, the original designers of a software system are long gone and maintenance is often left in the hands of people who are inadequately trained or for whom this is only one of many other responsibilities. Lacking the insights posessed by the original design team they inevitably make mistakes, causing invisible damage to the whole edifice. Slowly but surely the system begins to decay, with every attempt to fix it creating further problems. In the end, to avoid catastrophic failure the system will have to be replaced, often well before its originally projected lifetime.
+ 
+For centuries we have built complex and robust human societies without the need for computers or software. Language had a huge, vital part to play in this; without it we'd still be living in caves.
+ 
+## Programming in English
+ 
+So back to the title of this book. While freely admitting that there are no universal solutions, I argue that many software products would benefit from being written in something closer to English so they could be understood by more of the people with "skin in the game". I'd like to offer a couple of basic guiding principles that make the case for what follows:
+ 
+ 1. If it's too complex to express in English, it's too complex. Period.
+ 1. If it can be expressed in English it should be possible to code it in English.
+    
+The rest of this book explains how to build a computer language that's powerful enough to address any problem that can be described in English, yet readable enough that anyone with an understanding of the problem domain can discover how it works.
+
+The techniques described are not just theoretical; they're ones that I've used for over 20 years, starting in about 1998 with a Java-based compiler and runtime. In 2018 I decided to recreate the same thing using JavaScript, partly to gain experience in using the language and partly to build an environment that would make it easier to program web applications. Both aims were successful. The end result is called _**EasyCoder**_; its source code repository is hosted on GitHub at [https://github.com/easycoder](https://github.com/easycoder) and that's where most of the code excerpts in this book come from.
+
+For anyone interested, building a language along these lines isn't a huge job. It took me about 4 months (part time) to get the compiler and runtime up, then a year or two to gradually refine and enhance them. There's quite a lot of code but nothing massively complicated anywhere, so in terms of size it would make quite a reasonable student project, albeit a fairly unusual one. I found the whole exercise most beneficial in getting me proficient in understanding and using core JavaScript.
+
+It's possible this book may inspire some to take the existing **_EasyCoder_** system and customize it for their own purposes. This is fine; you are most welcome to use the book as a manual on how the system currently works and to make whatever changes you like to improve it.
+
+**_EasyCoder_** has its own website at [https://easycoder.github.io](https://easycoder.github.io) (built entirely using _**EasyCoder**_ scripts, of course). One of the links on the home page is to the _Codex_, a combination of tutorial, reference manual and coding playground where users can create and run scripts. Readers of this book can get a feel for the kind of language being described, as well as appreciating its ability to handle a very wide range of varied tasks. It is my hope that this may inspire the creation of languages far more capable than my own.
+
+This book can be read in a linear fashion; at the bottom of each page is a link to the next. Alternatively, you can choose any page from the table of contents below.
+
+I'm assuming you have some experience with JavaScript and ES6. You don't need to be an expert but complete beginners will find it a little hard going in places as I expect you to be able to read sections of code without my having to spell out everything line by line. When I started the _**EasyCoder**_ project my level of JS knowledge was pretty low, and it shows in places. I keep promising myself I'll do a major refactoring exercise but the time never seems to be available.
+
+Photo by <a href="https://unsplash.com/@cookiethepom?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Cookie the Pom</a> on <a href="https://unsplash.com/s/photos/computer?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+
+~pn:::2 Designing a language:Designing a language~
+
+<hr>
+
+# Contents
+
+~sid:2 Designing a language:Designing a language~
+
+> ~stid:2 Designing a language/Environment:The coding environment~
+
+> ~stid:2 Designing a language/Vocabulary:Vocabulary~
+
+> ~stid:2 Designing a language/Example code:Example code~
+
+> ~stid:2 Designing a language/Variables:Variables~
+
+> ~stid:2 Designing a language/Commands:Commands~
+
+~sid:3 Compilation:Compiling scripts~
+
+> ~stid:3 Compilation/Tokenizer:The tokenizer~
+
+> ~stid:3 Compilation/Compiler:The compiler~
+
+> ~stid:3 Compilation/Domains:Domains~
+
+> ~stid:3 Compilation/Variables:Compiling variables~
+
+> ~stid:3 Compilation/Keywords:Keyword handlers~
+
+> ~stid:3 Compilation/If:The `if` handler~
+
+> ~stid:3 Compilation/Multitasking:Goto, Gosub and Multitasking~
+
+> ~stid:3 Compilation/DOM:Document Object Model commands~
+
+> ~stid:3 Compilation/Values:Value handlers~
+
+> ~stid:3 Compilation/Conditions:Condition handlers~
+
+~sid:4 Runtime:The runtime engine~
+
+> ~sid:4 Runtime/Handlers:Runtime handlers~
+
+> ~sid:4 Runtime/DOM:Running DOM commands~
+
+~sid:5 Plugins:Plugins~
+
+> ~stid:5 Plugins/Handling plugins:Handling plugins~
+
+> ~stid:5 Plugins/Export and import:Export and import~
+
+~stid:home/Conclusion:Conclusion~
+
+# General rules
+
+The aim here is to design a language that can be understood by non-programmers, so here are some rules. We'll start off with a fundamental principle:
+
+_All statements must be unambiguous_
+ 
+This is pretty obvious really. If we can't be sure what a statement means, how can a computer be expected to run it? English - as spoken and written - is replete with ambiguities, most of which only serve to confuse and mislead, so it's best to insist on something that doesn't share that weakness. OK, it will probably lack any poetic feel, but poetry is the last thing we need.
+ 
+## Special symbols
+
+ 1. Programs written in the language must be understandable when read out loud. To this end they must consist of words, with as few symbols as possible. Most people are not mathematicians and many write without any punctuation at all, or use it incorrectly. For them, computer languages are way too complex. So let's look at what we actually need.
+
+ 2. A computer program is code, but sometimes there's a need to explain what's happening. A comment is there for human readers and the computer knows to ignore it when running the program. You can adopt any comment style you wish, but in this book I'm going to use an exclamation mark (!) to indicate that what follows is a comment.
+
+ 3. Although modern programming is nearly always 'structured', human language isn't. Human-written instructions such as cooking recipes or navigation directions use GOTO freely, but this has been anathema to programmers for some decades now. Here we have something of a dilemma. Structure can be applied without the use of symbols, for example using indentation as in Python, but then it's all too easy to get wrong in ways that are hard to spot, so in many respects it's little better than relying on the intelligence and common sense of the programmer. The excessive use of structure, in the form of deep nesting, is hard both to read and to understand. Consider also that programs written in our new language are unlikely to be massively complicated. Anything really large or complex requires a team of professional programmers who will inevitably use mainstream development tools, so it's arguable we don't need formal structure. Fortran managed without it in the early days of programming, so without any sense of shame we'll resurrect the much-maligned GOTO command. What we do need is something to identify a labelled point in a program, and for this I'll allocate a colon (:) symbol.
+ 
+ 4. When literal text is used it must be quoted so the compiler won't mistake it for code. This is normally done with single or double quotes, but when you want to include one of these characters in your quoted text it gets very messy. So I'll specify the little-used backtick (&#96;) to denote quoted text.
+
+And that's it - just 3 symbols.
+
+## Capitalization
+
+To help with clarity it's useful to capitalize certain words. English is probably not the best example since capitals are used mainly to start sentences and for names. German takes things a lot further by capitalizing all nouns.
+
+Computer languages generally use camel case, which does indeed improve readability, but then start all names with lower-case, contrary to usage in human languages. To keep closer to the latter I'll suggest using an initial capital letter on all variable names. It won't actually be a requirement but it makes statements much more readable. The initial word of every statement will start with a lower-case letter otherwise it could be confused with a variable having the same name. It also helps when you build a color-coded editor, to have all the variables stand out in their own color.
+
+~pn:home:Programming in English:2 Designing a language/Environment:The coding environment~
+
+# The coding environment
+
+Before starting to look at language syntax we need to consider where our new language will run and what build environment it needs. The outline brief for the new language is that it should be easy to use and to be accessible to as many people as possible. Naturally, the ideal language will run everywhere and not require any build environment, compiling instantly on the fly directly from source text files and running immediately following compilation, but is this feasible? Most modern build environments are as complex and hard to learn as the language itself so it's highly desirable not to need one, but how much of a performance hit will we suffer by doing everything in real time?
+
+Rather than beat about the bush I'll come straight to the point. The techniques described in this book are based on real compilers written in JavaScript and Python. Both compile very quickly. The JavaScript version, running in Chrome on a 2018 Slimbook, will compile a 1000-line script in just over 20msec and my budget smartphone doesn't seem to be much slower. Likewise, the run-time performance is more than up to the needs of most websites. We know it's possible so that's what we should aim for.
+
+The other decision concerns where the code is to run. If your compiler is coded in Python, the applications you build are basically restricted to running on a PC of some kind. I'm personally doubtful of the value of this, especially as Python is itself already a fairly high-level language and you'd get more bang from your buck by just learning that.
+
+Some might prefer to code in C++ or Java. Many compilers are written in C++ so there's something to be said for that, though if you want to distribute your efforts you'll have to do versions for Windows, for Mac and for Linux.
+
+There are many, many other alternatives but JavaScript stands out because it runs in every browser on the planet. Many people, most notably Chromebook owners, rarely venture outside the browser. Your apps can reside on a webserver and be available simply by typing a URL. Add to this a superb graphics environment and the case is unanswerable.
+
+In this book I will assume the browser is the environment and JavaScript is what we'll use to write the new language. JavaScript, as noted above, is incredibly powerful and is well up to the job of being an "assembly language" in which to code higher-level software.
+
+The way it will work is like this. The language itself will be shipped as a single JavaScript file and called by the web page that needs it. Elsewhere in the page will be the script that implements the functions of the required web app. This will be in a specially named `<div>` that the JavaScript module looks for when the page has loaded. If it finds the script it compiles and runs it.
+
+In the browser, JavaScript can be called upon to do anything from minor cosmetic tweaks to full-scale applications. Since our language will be written in JavaScript, as long as it has a full range of commands it can do everything you'd otherwise use JS for. Although it'll run more slowly, you won't notice the difference in most cases.
+
+~pn:2 Designing a language:General rules:2 Designing a language/Vocabulary:Vocabulary~
+
+# Vocabulary
+
+One of the most noticeable differences between human and computer languages is in the richness of their vocabularies. English has an unknown number of distinct words; estimates range from low to high hundreds of thousands. No computer language is blessed with such a rich vocabulary, though to be fair none need it. Even the most accomplished native English speakers never use the full range of words available, and as we know, computer programs function with just a few tens of words.
+
+However, things are not quite a simple as that. A computer language may have 50 or fewer words in its vocabulary but there are usually far more distinct entities to be represented. Most modern computer languages deal with this by providing _classes_ that perform a little like native language objects. So you can create a _dog_, _cat_ or _car_ object and use its properties in the same ways as simple integers or strings. The effect of doing this isn't completely seamless; the syntax of a library _File_ object is such that if never quite behaves as if it were built-in, but it's the best most computer languages can offer.
+
+In our own custom language we don't need to be constrained in this way. The core language can have as many special types and abilities as we are able to devise unique syntax for, only being limited by the size of the JavaScript file we have to deliver to the browser. We can go on adding as many features as we like, but eventually it will get so large it will degrade page load times to an unacceptable degree. As long as we're prepared to accept a compacted file size that's not too much more than 100k bytes or so then the load time can still be good.
+
+Beyond that we need some kind of library mechanism to bring in special functions that are only required by particular apps. A good example is code to handle Google Maps. There's no point in bundling the necessary JS libraries unless the page actually needs to use them, so let's have a load-on-demand strategy instead. The main thing is to ensure that plug-ins of this kind add functionality in a seamless manner, where the added keywords and behaviors act as though they are a part of the core language. This allows unlimited expansion of the language capabilities.
+
+Along with this, let's also have a mechanism for loading source scripts on demand, compiling them on the fly and releasing them when they're no longer wanted. Again, this allows the system to offer unlimited capabilities without the risk of running out of memory.
+
+The technique proposed here enables functionality of almost any complexity to be wrapped in new language syntax and delivered on demand. This means that there is no web page or web app that cannot be built using our new language. As with maps, any large chunk of functionality that is inconvenient or clumsy to code in the syntax of our new language can be written as a self-contained JS functional unit that presents a suitable API. It can then be added to the language using a small plug-in module. The ultimate conclusion of this is a web page that contains just the word _doit_, which loads everything else as pure JavaScript, though this goes completely against the idea of making code more readable. All I'm saying is that our new language is able to play well with any other JS-based coding system. It's not a rival; it's a partner.
+
+~pn:2 Designing a language/Environment:The coding environment:2 Designing a language/Example code:Example code~
+
+# Example code
+
+Let's look at the kind of statements that would form part of an English-like programming language. I'll start with arithmetic. The language will handle integer 4-function arithmetic; add, subtract multiply and divide, plus modulo (remainder). Floating-point is only infrequently needed in general programming, and where it is there are ways of handling it without mixing it up with integer processing.
+
+Before I launch into a description of the actual arithmetic functions I'll first introduce the notion of _constants_, _values_ and _variables_. These three can only be defined in terms of each other, so I'll take them in alphabetical order.
+
+## Constants, values and variables
+
+A _constant_ is an entity whose value is fixed for all time, such as 14, 3996, "37.02" or "Kg". Some computer languages let you give a name to a constant (these are called _manifest constants_); this helps if you use the same constant in many places and later want to give it a different value; it saves having to hunt down every occurrence.
+
+A _value_ is any entity that can be used as part of a calculation or other language command. It might be a constant as defined above, it might be the contents of a variable as defined next, or it might be something else that is only valid at the point you actually use it, such as the time of day or the size of a file. To cope with all this variation we'll implement a "value" as a _specification_ of how to obtain the actual numeric, boolean or textual value to use in the command.
+
+A _variable_ is a named storage location into which you put a value. In this language, variables are _typed_; that is, they hold a particular kind of value and have particular actions that are valid for that variable type. This is in fact how English works; a dog cannot be changed into a cat or a chair. Each has its own set of properties, some of which it shares with other variable types.
+
+## Arithmetic
+
+So let's now look at how we do arithmetic, starting with addition. At its simplest, this involves taking two values, adding them together and putting the result somewhere, where _somewhere_ is a variable able to hold a value of the type resulting from the addition.
+
+Most computer languages represent addition like this:
+```
+C = A + B
+```
+where A and B are _value_s and C is a _variable_. There are no constraints on what kinds of values are represented by A or B; they could be a constant, a variable or a complex value.
+
+There's a variant on this:
+```
+C = C + B
+```
+where the result replaces one of the original values, which must itself be a _variable_.
+
+Remember I insisted some while back about not using symbols and being able to read out a program? OK, so we need to figure what this might look like in our new language. In English you'd likely say
+```
+add A to B giving C
+```
+for the first form, and 
+```
+add B to C
+```
+for the second. So why not do just this? Let's adopt the exact same syntax we use in speech. And the same goes for the other 3 functions:
+```
+take A from B giving C
+take B from C
+multiply B by A giving C
+multiply C by B
+divide B by A giving C
+divide C by B
+```
+Note how I've shown multiply and divide having the two values in the opposite order to add and subtract. The way I've presented it treats B as a "primary" value and A as something being used to modify it, which might not always be the case, but it serves to point out how the new language can follow English quite closely.
+
+~pn:2 Designing a language/Vocabulary:Vocabulary:2 Designing a language/Variables:Variables~
+
+# Variables
+
+Earlier I said that our new language should follow the example of English in that the entities it uses all have distinct types. These can be added to by the use of plugin modules, as also mentioned earlier.
+
+The types provided by the core language fall into two groups. First there's a small set of types that are needed by any language to deal with numeric and string values. Along with these are special types such as one to handle supplementary scripts downloaded while the app is running. The second group deals with the visual environment of a browser, in particular the Document Object Model (DOM). There will need to be types for each of the most commonly used DOM types such as `<div>`, `<p>`, `<img>`, `<a>`, `<input>` and so on. Each of these will have its own syntax for the things it can do.
+
+At this point I'll note that for speed the compiler of our language will be single-pass; that is, it processes source scripts just once. The consequence of this is that variables must be declared before they are used, so it will be usual to see a block of declarations at the top of the script looking something like this:
+```
+div Main
+div LeftPanel
+div RightPanel
+p Intro
+a Continue
+img ContinueImage
+variable N
+variable Count
+...
+```
+The syntax is of the type name followed by the name of the variable, which is capitalized (because names are always capitalized in English).
+
+Variables can start with default values or with no value at all, but the latter is preferable as it allows the runtime system to detect when a variable has been accessed before being assigned a value - a common programming mistake. The compiler should also save a flag into the record held for the variable, to be set when code is encountered that accesses the variable. This allows a check to run after compilation to discover unused variables. These are small points but they make life simpler for programmers.
+
+The primary core variable types hold numeric, string or boolean values. You can if you wish use distinct types for each of these, or you can use a single type that adapts itself to the data being placed in it. This is up to you, the designer of the language.
+
+## Arrays
+
+In most computer languages, arrays are represented using notation like `MyVariable[5]`, where the sixth element (counting from zero, not 1) is being referred to. To avoid using symbols we need a different way to represent an array. The approach we will use is found in SQL, where a _cursor_ selects one record of a set returned from a database query.
+
+In our language, all variables will be arrays, initially holding just a single element. They also have an internal  "index" value that points to the currently-selected element of the array; this is initially zero. The language will have a command that sets the number of elements of the array to any chosen value; also a command that sets the index value to any given position in the array. When the array is accessed, the runtime engine uses the indexed item as if it were the only element in the array - a simple variable, in other words. The actual syntax of the commands is up to the designer of the language, but here are some examples:
+```
+set the elements of MyVariable to 10
+index MyVariable to 5
+add 1 to MyVariable
+```
+The first command sets up the array, the second one points to a specific element and the third one accesses the data at the given index.
+
+When the runtime encounters the command `set the elements of` it will either expand or contract the array, depending if the requested number is greater or smaller than the current size. So although on expansion no data will be lost, on contraction the higher-indexed elements will be.
+
+~pn:2 Designing a language/Example code:Example code:2 Designing a language/Commands:Commands~
+
+# Commands
+
+In this book I don't want to be prescriptive about what commands should be implemented. This is a book about building your own language so it's not up to me to specify details. I will show examples that demonstrate how to use some of the variables listed in the last page. You may choose to follow my syntax or you may prefer to do something completely different. This is entirely up to you - it's your own language you're creating.
+
+The primary core variable type(s) hold numeric, string or boolean values, either as distinct variable types or as a single type that can hold any of those kinds of data. On the ~tid:Example code~ page are examples of how you might choose to implement arithmetic operations.
+
+To set up a numeric variable you can use a syntax such as
+```
+put 12345 into Count
+```
+
+String operations are also quite straightforward. To assign a string value, use
+```
+put `This is a string` into Title
+```
+To append to an existing string you can use the `add` keyword, but your compiler will need to check if it's being asked to do an arithmetic or a string operation, which may not be easy if your variables can hold either type. So it's probably better to use `append`:
+```
+append `Some more text` to MyText
+```
+If you are building a composite string this can be a little cumbersome, so I recommend implementing a `cat` (catenate) operator in your value processor (see the relevant page). Here's a sample usage based on an array variable `Numbers` and a `print` command that outputs to the browser console:
+```
+index Numbers to N
+print `The value of element ` cat N cat ` of Numbers is ` cat Numbers
+```
+All languages need a selection of flow control commands, the minimum being `if` and `while`. Because this language will probably lack any advanced structuring you'll also need the infamous `goto` command. To avoid repetition you'll most likely want `gosub` and `return` (or their equivalents). If you're feeling really adventurous you might include a `with` clause in your `gosub` so you can pass in private variables, but it could get rather complex as you'll need some way of identiying them at the entry point of a subroutine.
+
+When you're programming browser-based apps you'll almost certainly want concurrent processing at some point. JavaScript itself is single-threaded but there are ways to implement concurrency (or at least something that looks and feels like it) in your scripts. All I'll say here is that with this capability you can implement commands like `wait` to pause execution for a given time, `fork` to run different parts of your script concurrently with another, and `run` to load and concurrently run different script modules. I'll cover these a little later on in this book.
+
+Some other things you're likely to want at some point (some more important than others):
+ - a set of REST commands so you can GET data from your own or remote websites and POST data back again
+ - commands for handling JSON data; creating JSON objects, adding and removing items from them etc.
+ - commands for handling forms
+ - a Google Maps module
+ - floating-point arithmetic
+ - other specialized domain-related commands
+
+All of these can be handled by load-on-demand plugins (~sid:5 Plugins:See this section~) instead of rolling them into the main JS file.
+
+## DOM commands
+A large number of commands in the browser domain will be those dealing with the Document Object Model. This is where the language is likely to be most frequently used; as a replacement for JavaScript when aspects of a web page need to be tweaked.
+
+Each of the DOM variables such as `<div>` will be designed to handle actions on a corresponding entity in the DOM. So first you need to connect the two, for example using an _attach_ keyword:
+```
+attach Screen to `id_screen`
+```
+This assumes that in your document there is a `<div>` with an id of `id_screen`. Your runtime JavaScript looks for this id and "attaches" its owner element to the script variable. You can now perform operations on the variable; the runtime instantly and faithfully mirrors changes on the `<div>` itself. Your language will have to recognise all the commands that are valid for this variable type, so you might decide to implement a `set` command to do the hard work, with constructs like
+```
+set the background of Screen to `yellow`
+```
+which is a lot easier for non-programmers to read and remember than its JS equivalent.
+
+As well as attaching to existing objects you will probably want to create new ones using an existing object as a parent. Here's a typical syntax:
+```
+create LeftPanel in Screen
+```
+
+With a full set of `create` syntax you can build an entire DOM using just script and hang it on any element in your web page. This is great for portability; you have a script that will run anywhere.
+
+~pn:2 Designing a language/Variables:Variables:3 Compilation:Compiling scripts~
+
+# Compiling scripts
+
+>_Spoiler alert: If you were hoping for a tutorial on the "correct" way to build a compiler, you may be disappointed. This book is about building a computer language that resembles English, and because this is an unconventional thing to do, the compiler is also unconventional. In spite of that, however, it manages to be very flexible and to achieve sufficiently high performance that in practice it will never be seen doing its work._
+ 
+## Interpreters and compilers
+
+Before embarking on the design of a compiler it's probably best to settle what it should do. In the old days the main choice was between an _interpreter_ and a _compiler_. The first of these takes instructions directly from the source text, works out what they mean and performs the desired functions one at a time according to the program flow. This avoids the need to wait for the entire program to compile (something that used to take rather a long time) but has several disadvantages. Firstly, no error checking is done before the program runs. Secondly, if instructions are repeated (in _for_ loops for example) they are re-interpreted each time. This will usually make the language slow. Thirdly, flow control statements such as _if_, _while_ or _for_ require the progam to choose a path that depends on the outcome of a test. A simple interpreter has no knowledge of where execution should resume, other than by scanning the entire program to find out. This is extremely time-consuming.
+
+The second choice used to be a compiler, which examines the entire program and converts it into the machine-level code needed for the processor to execute it. The program will run far more quickly but you have to wait for compilation to complete before it starts and the compiler is usually a completely separate program. It's rare to see a compiler that runs inside the browser. Once the compiled code is loaded and running you have no control over it, unlike with an interpreter which is still managing things as the program runs.
+
+That was the old days. Today the choices are far more nuanced. Interpreters can "learn as they go" so although the program may start slowly it will pick up speed as the interpreter re-uses parts of the code, having left information that will help it the next time it encounters the same code.
+
+Another big change is that compilers don't have to generate "machine code" specific to any given processor architecture. Many compilers, most notably Java, generate code for a hypothetical machine that rarely exists as an actual computing device. A separate run-time engine then "pretends to be" that device and runs the code on whatever hardware it's installed on. The runtime engine is in effect an interpreter, but the code it's running is optimized for speed and efficiency. This approach gives us the best of both worlds.
+
+The compiler I will describe here will run in the browser itself and generate code that will run instantly in the same browser using a runtime interpreter.
+
+## Compiler strategy
+
+Books on compiler design generally describe a standard series of steps such as _lexical_, _syntax_ and _semantic analysis_, _code generation_ and _optimization_. The compiler examines the entire program to build an internal representation of if, then traverses the structure to generate and optimize the code. We're not going to do any of that. Not because it's wrong - it certainly isn't - but because it's not the only way. The technique I'll be describing here is based on observation of how human beings process language, particularly foreign language. I have yet to find any other books describing this techinique.
+
+Imagine you encounter some instructions written in some language other than English. Let's say you have a very basic understanding of the language but are in no way fluent, and that you have a dictionary to hand. How do you approach the task?
+
+I'll use an example. Suppose the language is Italian and the first instruction looks like this:
+
+_apri la terza porta a sinistra_
+
+which translates as
+
+_open the third door on the left_
+
+Now I can't guarantee that all minds approach a problem the same way, but this how mine does it:
+
+The first word is _apri_. I look this up in the dictionary and discover it means _open_ (as a command verb). So I deduce that what follows must be something that needs to be opened. The next word is _la_ (_the_) which I will treat as syntactic noise that doesn't affect the overall meaning. Then comes _terza_ (_third_). I realize this isn't a thing at all; it's an ordinal number. So the thing that needs to be opened is the third of something. Save that information and move on to _porta_ (_door_). Yes, this makes sense; it's the third door.
+
+At this point there are potentially several possibilities. Perhaps there's nothing at all, in which case I'll need to make some kind of assumption about which door to open. Perhaps it's telling me _how_ to open the door, with an adjective like _quickly_ or _slowly_? Nope, it's none of them.  It's actually _a_ (_on the_). This is another bit of syntactic noise, but it gives me a good clue as to what to expect, that is, either _right_ or _left_. When I take the next token it's confirmed.
+
+There are several points along the way where more than one possibility branches off from where I am. The technique I'm using tries each of these possibilities in turn until one is found that meets expectations, then I move on. If none of my expectations are met I may have taken a wrong turning earlier, so I back up to that point and try another path. Eventually I either find a complete match for the whole instruction or I conclude that it's nonsense - an error.
+
+And this is essence is how our compiler will do its job; by working its way along a command, trying all the possibilities at each step, backing up and retrying when none match and declaring success or failure at the end. This may sound terribly inefficient but actually it's not. There are a number of advantages to the strategy. One is it needs only a single pass through the source code. Another is it creates code for the hypothetical target machine as it goes. And thirdly is it's very easy to follow and to enhance as new syntax needs to be added.
+
+All of the above assumes the program is presented to the compiler as a series of tokens. So we'll have to do a little work on the source script before we can give it to the compiler. This is the job of the _tokenizer_. But before we look at that, here's a note about how to choose good function names.
+
+## Function naming
+
+When you add a JavaScript file to your web page you are adding all its global constants, variables and functions. It's important to name these in such as way that they're not likely to clash with names chosen for other JS modules that might also be added to the page. The best strategy is to keep to a minimum the number of distinct global names and to prefix each one with a unique identifier such as the name of your project. For example, _**EasyCoder**_ comprises a number of source files each of which contains a single object with the name `EasyCoder_`_something_. Here is the start of the main compiler module:
+```
+const EasyCoder_Compiler = {
+
+	name: `EasyCoder_Compiler`,
+
+	getTokens: function() {
+		return this.tokens;
+	},
+
+	warning: function(message) {
+		this.addWarning(message);
+	},
+
+	unrecognisedSymbol: function(item) {
+		this.addWarning(`Unrecognised symbol '${item}'`);
+	},
+	... many more functions ...
+};
+```
+Other modules that require access to compiler functions are always handed a reference to an instance of `EasyCoder_Compiler`.
+
+~pn:2 Designing a language/Commands:Commands:3 Compilation/Tokenizer:The tokenizer~
+
+# The tokenizer
+
+The tokenizer reads the entire script and converts it to a list of tokens. Since we're dealing with a variant of English, these tokens are words delimited by spaces or newlines. We'll decide to ignore the difference as far as possible and allow scripts to be written on one line or over several lines, according to the whim of the programmer.
+
+The tokenizer scans along the source script, character by character. First it looks for a non-space, then it moves forward until it sees a space. The characters it passed over become a _token_ that gets pushed into an array, with a couple of exceptions:
+
+The first exception is comments. These start with an exclamation mark and continue to the end of a line. A comment might be the only thing on a line or it might be placed after a program instruction. So when the scanner sees an exclamation mark it removes everything from and including it to the end of the line.
+
+The second exception is quoted strings, which may themselves contain spaces. Quoted strings start and end with a backtick (&#96;) and they're not allowed to continue from one line to the next. So when the tokenizer sees a backtick it reads ahead until it sees a matching backtick, then the entire string (minus its backticks) is pushed to the token array.
+
+At the end of the scanning pass we have an array of tokens. However, there's a little more to do to make the programmer's life easier. If an error occurs it's polite to report it, showing where it happened in the original script. Rather than just push plain tokens onto our list we also push the index of the token in the list and the line number of the original script it came from. The latter is easy to  get simply by counting newlines while scanning. We also build a second array, comprising the line number and the text of each line. This will let our error reporter show the line at which the error occurred and maybe a few lines leading up to it.
+
+The output of the tokenizer is an object containing the two arrays/lists. This is then passed to the compiler.
+
+Here is the main tokenizer function as implemented in _**EasyCoder**_. The `file` parameter is an array of lines:
+```
+	tokenizeFile: function(file) {
+		const scriptLines = [];
+		const tokens = [];
+		let index = 0;
+		file.forEach(function (line, lino) {
+			scriptLines.push({
+				lino: lino + 1,
+				line
+			});
+			const len = line.length;
+			let token = ``;
+			let inSpace = true;
+			for (let n = 0; n < len; n++) {
+				const c = line[n];
+				if (c.trim().length == 0) {
+					if (inSpace) {
+						continue;
+					}
+					tokens.push({
+						index,
+						lino: lino + 1,
+						token
+					});
+					index++;
+					token = ``;
+					inSpace = true;
+					continue;
+				}
+				inSpace = false;
+				if (c === `\``) {
+					m = n;
+					while (++n < line.length) {
+						if (line[n] === `\``) {
+							break;
+						}
+					}
+					token = line.substr(m, n - m + 1);
+				} else if (c == `!`) {
+					break;
+				} else {
+					token += c;
+				}
+			}
+			if (token.length > 0) {
+				tokens.push({
+					index,
+					lino: lino + 1,
+					token
+				});
+			}
+		});
+		return {scriptLines, tokens};
+	},
+```
+
+~pn:3 Compilation:Compiling scripts:3 Compilation/Compiler:Building a compiler~
+
+# Building a compiler
+
+Most of the main compiler module is a collection of functions to do things that will be needed by the ~tid:Keywords:keyword handlers~. I'll show the ones implemented in _**EasyCoder**_; your language may need more or less of them.
+
+The _**EasyCoder**_ compiler module looks like this:
+```
+    const EasyCoder_Compiler = {
+
+        name: `EasyCoder_Compiler`,
+
+        getTokens: function() {
+            return this.tokens;
+        },
+
+        warning: function(message) {
+            this.addWarning(message);
+        },
+
+        ...
+};
+```
+## The compiler functions
+Compiler functions variously use the list of tokens provided by the ~tid:Tokenizer:tokenizer~, the symbol table and the program array, which is a list of run-time commands.
+
+Looking at each of the functions in turn:
+
+`getTokens()` returns the entire list of tokens as passed in by the ~tid:Tokenizer:tokenizer~.
+
+`addWarning(message)` pushes a warning message onto the warning stack. These may or not be errors but the compiler can't be sure.
+
+`getWarnings()` returns the list of warnings collected so far. These can be presented as part of an error message or just shown at the end of compilation.
+
+`getIndex()` gets the current index into the token list.
+
+`next()` advances the token index without actually doing any processing.
+
+`peek()` retrieves the token at the next position after the current token, thus "peeking" at what comes next.
+
+`more()` returns `true` if there are still tokens waiting to be processed.
+
+`getToken()` returns the current token, or `null` if we're at the end of the list or an empty value is found.
+
+`nextToken()` calls `next()` to move the token pointer, then `getToken()` to return the token at that position.
+
+`tokenIs(value)` returns `true` if the current token has the value given.
+
+`nextTokenIs(value)` advances to the next token then calls `tokenIs(value)`.
+
+`skip(value)` moves on from the current token if it has the value given. This is used to skip over "syntactic noise" such as "the" and is shorthand for `if (tokenIs(value)) { next(); }`, thereby making `value` optional.
+
+`prev()` moves back one token.
+
+`getLino()` retrieves the line number that holds the current token.
+
+`getTarget(index)` is like `getToken()` but it returns the token at a given target index.
+
+`getTargetPc(index)` gets the program counter value for the item - assumed to be a symbol - at the index given, defaulting to the current index.
+
+`getCommandAt(pc)` returns the run-time command at the given program counter location.
+
+`isSymbol(required)` returns `true` if the current token is a program symbol (a variable name). It looks in the symbol table to ensure the token is present. If not, then if a `required` parameter has been passed in an error is thrown; otherwise it just returns `false`.
+
+`nextIsSymbol(required)` moves to the next token then calls `isSymbol(required)`.
+
+`getSymbol(required)` calls `isSymbol(required)` then returns the symbol record for the symbol at the current index in the token list.
+
+`getSymbolPc()` returns the program counter value for the symbol at the current token index. This will be the address in the program list where the symbol is declared.
+
+`getSymbolRecord()` returns the complete record for the symbol at the current token index.
+
+`getSymbols()` returns the entire symbol table.
+
+`getProgram()` returns the program list.
+
+`getPc()` returns the current position in the program list. This is the current size of the list.
+
+`getValue()` calls the ~tid:Values:value processor~ to compile the current token and what follows it as a value. The returned value is a _specification_ of the value, that is, how to evaluate it at runtime.
+
+`getNextValue()` moves the token pointer along then calls `getValue()`.
+
+`getCondition()` calls the ~tid:Conditions:condition processor~ to compile the token and what follows it as a condition. The returned value is a _specification_ of the condition, that is, how to evaluate it at runtime.
+
+`constant(value, numeric)` converts the supplied value into a numeric or a string constant, depending on the flag passed in.
+
+`addCommand(command)` adds a compiled command to the program list.
+
+`addSymbol(name, pc)`adds a symbol to the symbol table by creating a property with the given name and pc value.
+
+`mark()` saves the current index into a special variable.
+
+`rewind()` restores the current index to the previously saved value, thereby _rewinding_ the compiler.
+
+`rewindTo(index)` restores the current index to a specified value.
+
+A keyword processor consists mainly of calls to these functions as it works its way along the token list. After a while you will become very familiar with using many of them. The operation of your compiler should be very easy to follow and new functionality is easy to add.
+
+The rest of the main compiler module comprises functions to manage progress along the token list. Before describing these I'll introduce the concept of _domains_.
+
+~pn:3 Compilation/Tokenizer:The tokenizer:3 Compilation/Domains:Domains~
+
+# Domains
+For maximum flexibility your language is divided into _domains_; groups of commands that all pertain to a particular area of the language. There's a _core_ domain, which handles commands that will be present in any language; arithmetic, string handling, conditional statements and so on. In the _**EasyCoder**_ repository there's a version of the language written in Python to run on the command line. This has just a _core_ domain. The JavaScript version, on the other hand, has domains for the browser (basically DOM features), for communication with servers via REST, for JSON processing and several more.
+
+Your compiler will know about the domains that are included in the standard package. The structure allows you to add extra domains at runtime so that scripts requiring their features can be compiled and run. This gives virtually unlimited flexibility to your language. Domain processing modules are just JavaScript files usually kept in a "plugins" folder.
+
+## Other compiler functions
+The remaining functions in the main compiler module manage the overall process of scanning and compiling the incoming token stream. They start by extracting a token then handing it to each of the domain processors in turn until one of them is able to process it. When this happens the domain will return a program command object with a number of standard fields such as
+
+`domain` - the name of the domain
+
+`keyword` - the keyword token
+
+`lino` - the line number in the original scripts
+
+As well as these the domain will have added other fields specific to the command as it has been evaluated. Be mindful at all times that no runtime values are involved here; everything is a _specification_ of how to run the command, extract values from its parameters and so on.
+
+One of the most important features of this system is the way it tries domains in turn to see which one can handle the syntax provided. Here's the function that does this:
+```
+    compileToken: function() {
+        // Try each domain in turn until one can handle the command
+        const token = this.getToken();
+        if (!token) {
+            return;
+        }
+        // console.log(`Compile ${token}`);
+        this.mark();
+        for (const domainName of Object.keys(this.domain)) {
+            // console.log(`Try domain ${domainName} for token ${token}`);
+            const domain = this.domain[domainName];
+            if (domain) {
+                const handler = domain.getHandler(token);
+                if (handler) {
+                    if (handler.compile(this)) {
+                        return;
+                    }
+                }
+            }
+            this.rewind();
+        }
+        console.log(`No handler found`);
+        throw new Error(`I don't understand '${token}...'`);
+    },
+```
+In the above, `this.domain` is a list of domain modules indexed by their names. The function iterates these, calling `getHandler()` on each one. If the domain is able to process the keyword it returns a handler function, which the compiler then calls to compile the token. This permits several domains to handle different variants of the same keyword. As soon as one of them returns `true` the function can return, knowing that the domain will have posted its compiled code into the program list. Note the way that `mark()` and `rewind()` are used to back up and try the same token with a different domain. If all of them fail it's an error and compilation stops.
+
+~pn:3 Compilation/Compiler:Building a compiler:3 Compilation/Variables:Compiling variables~
+
+# Compiling variables
+
+Variables are a special kind of entity and require a special kind of entry in the program list. Each _domain_ (see ~tid:Domains:Domains~) handles its own types of variables but in the program list they all look much the same. In _**EasyCoder**_ the `compileVariable()` function looks like this:
+```
+	compileVariable: function(domain, keyword, isVHolder = false, extra = null) {
+		this.next();
+		const lino = this.getLino();
+		const item = this.getTokens()[this.getIndex()];
+		if (this.symbols[item.token]) {
+			throw new Error(`Duplicate variable name '${item.token}'`);
+		}
+		const pc = this.getPc();
+		this.next();
+		this.addSymbol(item.token, pc);
+		const command = {
+			domain,
+			keyword,
+			lino,
+			isSymbol: true,
+			used: false,
+			isVHolder,
+			name: item.token,
+			elements: 1,
+			index: 0,
+			value: [{}],
+			element: [],
+			extra
+		};
+		this.addCommand(command);
+		return command;
+	},
+```
+It starts by checking for a duplicate token name, then adds an entry to the symbol table, giving it the index of the variable in the program list. Then it creates a command record and requests for it to be added at that position. The fields are as follows:
+
+`domain` - the name of the domain.
+
+`keyword` - the keyword token.
+
+`lino` - the line number in the original script.
+
+`isSymbol` - a boolean value that confirms this command contains a symbol.
+
+`used` - a boolean value that starts `false` and is changed to `true` as soon as the compiler comes across a command that assigns it a value. This allows a post-compilation check to be made for unused variables. Note that writing to a variable does not set the flag as this does not count as using it. Unused variables are a frequent source of errors when you come to run your program.
+
+`isVHolder` - tells the compiler that this variable is able to hold a numeric or a string value. Many variable types do not so this permits another compilation check to be made that a script is not attempting to assign a value to one of them.
+
+`name` - the name of the variable.
+
+`elements` - the number of elements held in the variable. All variables are arrays and initially have just a single element.
+
+`index` - the current index into the variable's array.
+
+`value` - a list of values held by the array (if it's a value holder). Note that the array elements are not constants; they are JavaScript objects that specify how to obtain the value. For example, if your script calls for the time of day there's little point in evaluating it at compile time when it might not be needed until minutes or even hours later. Using a specification defers evaluation until runtime.
+
+`element` - an array of elements, used for DOM element variables.
+
+`extra` - an unspecified extra object. This is used by the _browser_ plugin to signify that the variable is a DOM object. Other domains may use it for something else entirely.
+
+Your language may have more or fewer fields than this, according to its requirements.
+
+~pn:3 Compilation/Compiler:Domains:3 Compilation/Keywords:Keyword handlers~
+
+# Keyword handlers
+
+Here we come to the heart of the compiler.
+
+In our custom language, every program statement starts with an English command verb such as `put`, `get`, `open`, `close`, `print` etc., plus a handful of other words like `if` and `while`. All of these words we call _keywords_ and each one of them has its own section of code in the compiler to handle it. These _handlers_ are distributed among the various domain modules that contribute to the language.
+
+When the compiler starts to evaluate a command, the first word will be a command verb or a special word such as `if` or `while`. The compiler tries each of the available domains in turn until one reports it is able to handle that keyword. This is done by a call to a function inside the domain handler. The one for the "core" package looks like this:
+```
+	getHandler: (name) => {
+		switch (name) {
+		case `add`:
+			return EasyCoder_Core.Add;
+		case `alias`:
+			return EasyCoder_Core.Alias;
+		case `append`:
+			return EasyCoder_Core.Append;
+		case `begin`:
+			return EasyCoder_Core.Begin;
+        ...
+		case `variable`:
+			return EasyCoder_Core.Variable;
+		case `wait`:
+			return EasyCoder_Core.Wait;
+		case `while`:
+			return EasyCoder_Core.While;
+		default:
+			return null;
+		}
+	},
+```
+Each of the keywords has its own handler function within this JavaScript module, whose name is `EasyCoder_Core`. If the token is named in the list, the function returns the handler; otherwise it returns null. The compiler will then try the remaining unvisited domains to see if there's another one able to handle the same keyword. This may seem strange at first, but some keywords can be found in several packages. A good example is `create`, which can create a DOM object, a Google Map or a custom object specific to a particular real-world problem domain.
+
+Perhaps the most important command is `stop`, which causes the current thread of execution to stop. In a browser environment, new threads are started every time an event is handled; I'll get to this later. There's also the possibility of setting up multiple threads that take turns to do a bit of processing before handing over to another thread. This is covered in the page on ~tid:Multitasking~.
+
+There's also likely to be an `exit` command, which not only stops the current thread but terminates the entire program instance, which ideally should clean itself up and remove itself from the browser. You should choose what action should happen if execution reaches the end of a script without either `stop` or `exit` being found. The `exit` command is unlikely to be used by the main program running in a browser as the page would stop operating, but if you've called in other scripts it's sometimes useful to be able to terminate them.
+
+Let's continue by examining how to process an `add` command. Here's the handler referenced in the fragment above:
+```
+	Add: {
+
+		compile: compiler => {
+			const lino = compiler.getLino();
+			compiler.next();
+			// Get the (first) value
+			let value1;
+			try {
+				value1 = compiler.getValue();
+			} catch (err) {
+				return false;
+			}
+			if (compiler.tokenIs(`to`)) {
+				compiler.next();
+				// Check if a value holder is next
+				if (compiler.isSymbol()) {
+					const symbol = compiler.getSymbol();
+					const variable = compiler.getCommandAt(symbol.pc);
+					if (variable.isVHolder) {
+						if (compiler.peek() === `giving`) {
+							// This variable must be treated as a second value
+							const value2 = compiler.getValue();
+							compiler.next();
+							const target = compiler.getToken();
+							compiler.next();
+							compiler.addCommand({
+								domain: `core`,
+								keyword: `add`,
+								lino,
+								value1,
+								value2,
+								target
+							});
+						} else {
+							// Here the variable is the target.
+							const target = compiler.getToken();
+							compiler.next();
+							compiler.addCommand({
+								domain: `core`,
+								keyword: `add`,
+								lino,
+								value1,
+								target
+							});
+						}
+						return true;
+					}
+					compiler.warning(`core 'add': Expected value holder`);
+				} else {
+					// Here we have 2 values so 'giving' must come next
+					const value2 = compiler.getValue();
+					if (compiler.tokenIs(`giving`)) {
+						compiler.next();
+						const target = compiler.getToken();
+						compiler.next();
+						compiler.addCommand({
+							domain: `core`,
+							keyword: `add`,
+							lino,
+							value1,
+							value2,
+							target
+						});
+						return true;
+					}
+					compiler.warning(`core 'add'': Expected "giving"`);
+				}
+			}
+			return false;
+		},
+
+		// runtime
+
+		run: program => {
+            // I'll describe this later
+		}
+	},
+
+```
+Please note that this code is quite elderly and could benefit from some optimization.
+
+The `Add` handler comprises two functions: `compile(compiler)` and `run(program)`. We'll talk about the second of these later in this book. The `compile(compiler)` function first calls `compiler.getLino()` to request the current line number, which will be needed in order to report errors in a friendly way. Then it moves the token pointer along the token stream using `compiler.next()`.
+
+The next token should be a value of some kind, so we call `compiler.getValue()` to get a specification for it. If this fails we throw an error, but if it succeeds we check the next token is `to`. Remember that the source syntax is either
+```
+add X to Y
+```
+or
+```
+add X to Y giving Z
+```
+So we move over the `to`. If what follows is a symbol (variable) then the command could be either of the two forms, but if it's not then the command can only be of the second kind because the first kind requires the second item to be a variable.
+
+So we call `compiler.isSymbol()`. If this returns `true` we then call `compiler.getSymbol()` to retrieve its record from the symbol table. This is an object, one of whose fields contains the program counter value for the variable declaration. We then retrieve the full variable spec using `compiler.getCommandAt(pc)`. Inside here is a field `isVHolder`. If this is not `true` it's an error as the variable isn't one that can hold a value.
+
+At this point we use `compile.peek()` to see what comes next without advancing the token pointer. We're looking for `giving` as the signal that it's the second kind of `add` command. If so, we'll be adding the contents of the current variable to the first value we scanned, so we call `compiler.getValue()` to evaluate it. Then we move to the next token. This is assumed to be the name of the variable into which the result must be placed. (The code above doesn't check this is a value holder but perhaps it should do.) Finally we construct a command object, populating it with everything we've found, and return this to the compiler.
+
+If `giving` wasn't found then `value2` isn't needed and a slightly different version of the command is returned.
+
+For the case where the second item was not a variable, `giving` must be present and the final item must be a variable. Based on my description above it should be quite easy to follow the logic. Note how a warning can be issued instead of throwing an error. This is because another domain may have a similar syntax but differ in some detail. The warning is optional but may help in displaying diagnostics. The function returns `false` if compilation didn't succeeed but nothing was found that could definitely be classed as an error.
+
+In the above I've glossed over `compiler.getValue()`. We'll be covering it later but in the meantime I'll describe some more keyword handler examples. Or you can go ~tid:Values:directly to it now~.
+
+~pn:3 Compilation/Variables:Compiling variables:3 Compilation/If:The `if` handler~
+
+# If
+
+The second example is a handler for the `if` statement; a vital part of any language. The full spec is this:
+
+```
+    if <condition> then <command> [else <command>]
+```
+where the `else` clause may or may not be present. Here's the current _**EasyCoder**_ code for the `if` handler:
+```
+	If: {
+
+		compile: compiler => {
+			const lino = compiler.getLino();
+			compiler.next();
+			const condition = compiler.condition.compile(compiler);
+			const pc = compiler.getPc();
+			compiler.addCommand({
+				domain: `core`,
+				keyword: `if`,
+				lino,
+				condition
+			});
+			// Get the 'then' code
+			compiler.compileOne();
+			if (!compiler.getToken()) {
+				compiler.getCommandAt(pc).else = compiler.getPc();
+				return true;
+			}
+			if (compiler.tokenIs(`else`)) {
+				const goto = compiler.getPc();
+				// Add a 'goto' to skip the 'else'
+				compiler.addCommand({
+					domain: `core`,
+					keyword: `goto`,
+					lino,
+					goto: 0
+				});
+				// Fixup the link to the 'else' branch
+				compiler.getCommandAt(pc).else = compiler.getPc();
+				// Process the 'else' branch
+				compiler.next();
+				// Add the 'else' branch
+				compiler.compileOne(true);
+				// Fixup the 'goto'
+				compiler.getCommandAt(goto).goto = compiler.getPc();
+			} else {
+				// We're at the next command
+				compiler.getCommandAt(pc).else = compiler.getPc();
+			}
+			return true;
+		},
+
+		run: program => {
+			// To be covered later
+        {
+	},
+```
+It starts the same way as for all handlers, by obtaining the current line number. Then it calls the _condition compiler_ to process the condition. As with `compiler.getValue()` I'll cover this in a later section of this book. The value returned is an object describing how to evaluate the condition at runtime.
+
+Next we get the current PC value and save it. Then we create a command object and append it to the program using `compiler.addCommand(command)`.
+
+Now we call `compiler.compileOne()` to compile the 'then' code - a single command. This might be just that - a single command - or it might be a block of commands. In _**EasyCoder**_ the latter is done with `begin...end` pairs. Between `begin` and `end` there can be any number of commands, including more `begin...end`s. Many readers will immediately spot recursion happening here, and this is the reason why the entire compiler is run from an _instance_ of itself, allowing other instances to be created without any risk of them interfering with each other. By calling every compiler function as `compiler.xxx()` we preserve the environment for each compilation thread. The previous compiler instance remains 'parked' while `compiler.compileOne()` runs.
+
+Having processed the 'then' code we check if we're at the end of the script. If there's more we check for `else`. If this is not present, all that remains is to set up things so that if the test fails the program resumes past the 'then' command(s). So we use `compiler.getCommandAt(pc)` to retrieve the command we saved earlier, and we add to it an `else` property giving the program counter value we're at now. So when the test passes we go through the 'then' block but when it fails we jump to the following command.
+
+When there's an `else` it's a bit more complicated.The first thing is to add a `goto` command to the program. It's value is unimportant as we'll be updating it. Then we post an `else` property into the `if` command as described in the previous paragraph. Then we call `compiler.compileOne()` as before to process the `else` command or block, then finally put the current program counter into the saved `goto` command. The result is that if the test passes we execute the 'then' block', which finishes with a jump to the first command past the `else` block. If the test fails we go directly to the `else` block then fall into the following code.
+
+The `while` command operates in a similar way, so rather than spell it out here I'll leave the reader to examine the _**EasyCoder**_ source or simply work it out as an exercise.
+
+~pn:3 Compilation/Keywords:Keywords:3 Compilation/Multitasking:Goto, Gosub and Multitasking~
+
+# Goto, Gosub and Multitasking
+
+This is where I confirm the worst suspicions of most self-respecting programmers, that this can only be a 'toy' language, because it has a `goto`. I am unrepentant. Human communication is full of `go to page 96` and similar instructions and they work perfectly well. Early computing languages like FORTRAN and BASIC used GOTO freely and the world didn't end. Yes, I understand that it can lead to poorly structured programming, but the lack of it also has its drawbacks; notably some very complex and clumsy loops with `break` and `continue` doing the job of a simple GOTO but being far harder for non-professionals to read. The kind of problems our new language is designed to address are ones that can be expressed in English, so GOTO has its rightful place.
+
+OK, that was something of a rant, so let's move on. If we have a GOTO we need to identify where it should go to. This can be done with a _label_; a standard symbol with a colon after it. Here's some psuedocode:
+```
+    if X is greater than 3 go to Skip
+    do this
+    do this too
+    go to NextCommand
+Skip:
+    do something else
+NextCommand:
+    carry on
+```
+Now I realize this example could plainly be done using a standard `if` statement with an `else` clause, but that's not always the case. Here I'm just suggesting a syntax.
+
+Here's the code to compile a `go` command:
+```
+	Go: {
+
+		compile: compiler => {
+			const lino = compiler.getLino();
+			if (compiler.nextTokenIs(`to`)) {
+				compiler.next();
+			}
+			const label = compiler.getToken();
+			compiler.next();
+			compiler.addCommand({
+				domain: `core`,
+				keyword: `go`,
+				lino,
+				label
+			});
+			return true;
+		},
+
+		run: program => {
+			// To be explained later
+		}
+	},
+```
+The first part of the code gets the line number as usual, then checks if `go` is followed by an optional `to`. You might also arrange for `goto` (without a space) to call the same compiler function. Next it gets the next token, which is assumed to be the name of a label, and returns a command object with the relevant information.
+
+## Subroutines
+Here's another legacy from good old BASIC. In those days subroutines were there to allow the same code to be called from several different places, avoiding repetition. Today we have _functions_, which are as different to subroutines as the Taj Mahal is to a house brick. Unfortunately, it's rather hard to devise a syntax for functions that can be easily understood when read out loud, but it's quite easy to do for a subroutine. So let's keep things simple.
+
+The simplest form of a subroutine is just a section of code terminated with a `return` command. You can enter it at any point above that as there's nothing special happening in the way it would for a modern function. No parameters, no local variables. To call the subroutine we use a `gosub` command. The compiler part of this is identical to `go` except for the name of the keyword.
+
+## Multitasking
+JavaScript is a single-threaded programming language, which means it can only do one thing at a time, but your custom language can be built in such as way as to 'appear' to be able to multi-task.
+
+The first step to achieving this is to implement a timer. In _**EasyCoder**_ this is called `wait` and here's its keyword handler:
+```
+	Wait: {
+
+		compile: compiler => {
+			const lino = compiler.getLino();
+			compiler.next();
+			const value = compiler.getValue(compiler);
+			const scale = compiler.getToken();
+			let multiplier = 1000;
+			switch (scale) {
+			case `milli`:
+			case `millis`:
+				compiler.next();
+				multiplier = 1;
+				break;
+			case `tick`:
+			case `ticks`:
+				compiler.next();
+				multiplier = 10;
+				break;
+			case `second`:
+			case `seconds`:
+				compiler.next();
+				multiplier = 1000;
+				break;
+			case `minute`:
+			case `minutes`:
+				compiler.next();
+				multiplier = 60000;
+				break;
+			}
+			compiler.addCommand({
+				domain: `core`,
+				keyword: `wait`,
+				lino,
+				value,
+				multiplier
+			});
+			return true;
+		},
+
+		run: program => {
+            // To be explained later
+		}
+	},
+```
+Compilation of `wait` is pretty simple. The syntax is
+```
+wait <value> millis/ticks/seconds/minutes
+```
+where <value> is the number of units to wait for, which might be any of the four options shown. Note that the syntax also allows for `1 second` instead of `1 seconds`, and so on. The command returned has the value and the multiplier separate because the first of these is a value object. You can also see that if no option is given the command defaults to seconds.
+
+With `wait` inside a `while` loop there are long periods of time when the script is paused, which gives us the opportunity to run other commands at the same time. Of course, it's not really at the same time, but things happen so quickly they appear to us that they are running concurrently.
+
+Multitasking can be started using the `fork` command, and in a browser environment it happens as a result of user actions such as clicking a screen element. As long as you take care not to let more than one thread modify the same variable you don't need to think about what's actually happening.
+
+Here's a simple script that demonstrates multitasking and the `fork` command:
+```
+    fork to Loop2
+    while true
+    begin
+        wait 3 seconds
+        print `fizz`
+    end
+Loop2:
+    while true
+    begin
+        wait 10 seconds
+        print `buzz`
+    end
+```
+There are two loops, each one of which waits for a length of time then prints a message to the console. The `fork` command starts the second loop, but instead of waiting for that to finish as `gosub` would do, it then goes into the first loop. Each time a loop hits its `wait` command the other loop gets a chance to run. The result on the console is a series of _fizz_ and _buzz_ lines, the one appearing more frequently than the other. (If you try this in the _**EasyCoder**_ Codex or on your own web page you'll need to open a browser console window to see the output.)
+
+The `fork` handler is identical to `go` and `gosub` except for the name of the keyword.
+
+As noted, `go`, `gosub` and `fork` are all compile identically. The differences come in the runtime, which we'll come to later in the book.
+
+~pn:3 Compilation/If:The `if` handler:3 Compilation/DOM:Domain Object Model commands~
+
+# Domain Object Model commands
+
+In _**EasyCoder**_, all the commands that operate on the Document Object Model are to be found in the _browser_ module. Here's its `getHandler(name)` function:
+```
+	getHandler: (name) => {
+		switch (name) {
+		case `a`:
+			return EasyCoder_Browser.A;
+		case `alert`:
+			return EasyCoder_Browser.Alert;
+		case `attach`:
+			return EasyCoder_Browser.Attach;
+		case `audioclip`:
+			return EasyCoder_Browser.Audioclip;
+		case `blockquote`:
+			return EasyCoder_Browser.BLOCKQUOTE;
+		case `button`:
+			return EasyCoder_Browser.BUTTON;
+		case `canvas`:
+			return EasyCoder_Browser.CANVAS;
+		case `clear`:
+			return EasyCoder_Browser.Clear;
+		case `click`:
+			return EasyCoder_Browser.Click;
+		case `convert`:
+			return EasyCoder_Browser.Convert;
+		case `copy`:
+			return EasyCoder_Browser.Copy;
+		case `create`:
+			return EasyCoder_Browser.Create;
+		case `disable`:
+			return EasyCoder_Browser.Disable;
+		case `div`:
+			return EasyCoder_Browser.DIV;
+		case `enable`:
+			return EasyCoder_Browser.Enable;
+		case `fieldset`:
+			return EasyCoder_Browser.FIELDSET;
+		case `file`:
+			return EasyCoder_Browser.FILE;
+		case `focus`:
+			return EasyCoder_Browser.Focus;
+		case `form`:
+			return EasyCoder_Browser.FORM;
+		case `fullscreen`:
+			return EasyCoder_Browser.FullScreen;
+		case `get`:
+			return EasyCoder_Browser.Get;
+		case `h1`:
+			return EasyCoder_Browser.H1;
+		case `h2`:
+			return EasyCoder_Browser.H2;
+		case `h3`:
+			return EasyCoder_Browser.H3;
+		case `h4`:
+			return EasyCoder_Browser.H4;
+		case `h5`:
+			return EasyCoder_Browser.H5;
+		case `h6`:
+			return EasyCoder_Browser.H6;
+		case `highlight`:
+			return EasyCoder_Browser.Highlight;
+		case `history`:
+			return EasyCoder_Browser.History;
+		case `hr`:
+			return EasyCoder_Browser.HR;
+		case `image`:
+			return EasyCoder_Browser.IMAGE;
+		case `img`:
+			return EasyCoder_Browser.IMG;
+		case `input`:
+			return EasyCoder_Browser.INPUT;
+		case `label`:
+			return EasyCoder_Browser.LABEL;
+		case `legend`:
+			return EasyCoder_Browser.LEGEND;
+		case `li`:
+			return EasyCoder_Browser.LI;
+		case `location`:
+			return EasyCoder_Browser.Location;
+		case `mail`:
+			return EasyCoder_Browser.Mail;
+		case `on`:
+			return EasyCoder_Browser.On;
+		case `option`:
+			return EasyCoder_Browser.OPTION;
+		case `p`:
+			return EasyCoder_Browser.P;
+		case `play`:
+			return EasyCoder_Browser.Play;
+		case `pre`:
+			return EasyCoder_Browser.PRE;
+		case `progress`:
+			return EasyCoder_Browser.PROGRESS;
+		case `put`:
+			return EasyCoder_Browser.Put;
+		case `remove`:
+			return EasyCoder_Browser.Remove;
+		case `request`:
+			return EasyCoder_Browser.Request;
+		case `select`:
+			return EasyCoder_Browser.SELECT;
+		case `scroll`:
+			return EasyCoder_Browser.Scroll;
+		case `section`:
+			return EasyCoder_Browser.SECTION;
+		case `set`:
+			return EasyCoder_Browser.Set;
+		case `span`:
+			return EasyCoder_Browser.SPAN;
+		case `table`:
+			return EasyCoder_Browser.TABLE;
+		case `tr`:
+			return EasyCoder_Browser.TR;
+		case `td`:
+			return EasyCoder_Browser.TD;
+		case `textarea`:
+			return EasyCoder_Browser.TEXTAREA;
+		case `trace`:
+			return EasyCoder_Browser.Trace;
+		case `ul`:
+			return EasyCoder_Browser.UL;
+		case `upload`:
+			return EasyCoder_Browser.Upload;
+		default:
+			return null;
+		}
+	},
+```
+As you can see, it's quite a long list. It comprises variable types, whose function names are all capitals, and other commands which only have a leading capital letter. The distinction is purely for clarity and the convenience of the programmer.
+
+Here's the handler for a `div` variable:
+```
+	DIV: {
+
+		compile: (compiler) => {
+			compiler.compileVariable(`browser`, `div`, false, `dom`);
+			return true;
+		},
+
+		run: (program) => {
+			// To be described later
+		}
+	},
+```
+Most of the work is done by `compiler.compileVariable(domain, keyword, isVHolder, extra)`, which is described on the ~tid:Variables~ page.
+
+The remaining functions are not themselves DOM objects but have roles that work with the DOM and with other browser features. Some are simple, like `enable` and `disable` but some are quite lengthy and repetitive, with many different variants of syntax to handle. I'll just give a single example here:
+```
+    } else if (token === `class`) {
+        if (compiler.nextTokenIs(`of`)) {
+            if (compiler.nextIsSymbol()) {
+                const symbol = compiler.getSymbolRecord();
+                if (symbol.extra === `dom`) {
+                    if (compiler.nextTokenIs(`to`)) {
+                        const value = compiler.getNextValue();
+                        compiler.addCommand({
+                            domain: `browser`,
+                            keyword: `set`,
+                            lino,
+                            type: `setClass`,
+                            symbolName: symbol.name,
+                            value
+                        });
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+```
+This fragment is for the command
+```
+    set the class of <DOM variable> to <class>
+```
+The compiler has already recognized `set` to get to this function, skipped over `the` and is now running down a list of all the things that might follow. (In some cases a `switch` might work better than a chained `if`.) Having seen `class` it checks that `of` follows then picks up the symbol name, gets its record from the symbol table and checks it's a valid DOM variable. Then it moves over `to` and gets the value that follows. Finally it builds a command object , posts it into the program array and returns `true`.
+
+Most of the DOM commands compile in much the same way so I won't work laboriously through the entire domain module, which is in the _**EasyCoder**_ repository as `Browser.js`.
+
+~pn:3 Compilation/Multitasking:Multitasking:3 Compilation/Values:Value handlers~
+
+# Value handlers
+
+In your new language, a _value_ is a single integer, boolean, string or object. (By single, I mean that map coordinates specifying a given location are not a value unless they are held as the object `{latitude, longitude}`.) The language has a number of variable types that can be treated as having simple numeric or string values, but it also permits the inclusion of variable types that hold data types such as coordinates (as just shown) or floating-point quantities. To keep things simple I'll ignore these in the following discussion.
+
+A value is a _specification_ of what must be done to retrieve the quantity represented by that value. The distinction is important; the specification is fixed and has a meaning at compile time as well as runtime, but it can only be applied at runtime to retrieve the quantity it represents. A good example might be a value that represents the current timestamp - the number of seconds elapsed since January 1st 1970. This obviously increases every second so its value at compile time is not very useful.
+
+Each specification has a number of properties; how many depends on the type of the value. Here are some of those found in the _**EasyCoder**_ language; your own language may well have its own set depending on your concept of what it means for something to have a value.
+
+`domain` - the current compilation unit. The language permits plug-in extensions to handle unlimited variations in syntax; each plugin deals with a set of commands for a particular domain such as general programming, the DOM, JSON handling, REST, Google Maps etc. This property identifies where the runtime engine should look in order to find a runtime handler for the given value. The domain may be omitted where the value is intrinsic to the core of the compiler.
+
+`type` - the type of this value. Examples are
+
+> `constant`, which denotes a numeric or string value. This is an intrinsic type.
+
+> `left`, which returns a specified number of characters from a string. This comes from the core package, dealing with general-purpose programming.
+
+> `screenWidth`, which returns the screen screen width. This is a browser DOM value.
+
+> `latitude`, which might return a floating-point value or a string representation of one. This might be found in a Maps plugin.
+
+A value object might have no properties other than `type` itself - an example being `screenWidth` - or it could have several; some fixed and others evaluated at runtime. Ordinary numeric/string values have a flag to say which data type is being held in the variable and the actual content itself.
+
+When building your own language you may decide to follow the structure of _**EasyCoder**_ or to go for something completely different.
+
+Many variable types - see ~tid:Variables~ - hold an array of values which are then used in numeric or string calculations. Value obects themselves are not visible as script entities but they are key to how the language processes its scripts.
+
+## Processing values
+
+In _**EasyCoder**_, the core compiler has a Values module that processes values that apply generally, such as `true`, `false`, numbers and string constants. It also handles the `cat` operator for string catenation. Here's how it deals with `true`:
+
+```
+		if (token === `true`) {
+			compiler.next();
+			return {
+				type: `boolean`,
+				content: true
+			};
+		}
+```
+
+If the value presented is not `true`, `false`, a numeric constant or a string the compiler calls the domains in turn, where `compiler.domain` holds a list of doman names:
+
+```
+		const index = compiler.getIndex();
+		for (const name of Object.keys(compiler.domain)) {
+			compiler.rewindTo(index);
+			const handler = compiler.domain[name];
+			const code = handler.value.compile(compiler);
+			if (code) {
+				return code;
+			}
+		}
+		return null;
+```
+
+If `null` is returned, signifying a failure to compile, it doesn't automatically imply an error has occurred; the compiler might be checking to see if the script is actually a value or if it needs to look for something else. When implementing your compiler always be mindful of the possibility of a strange-looking syntax being something perfectly legal and handled by another domain.
+
+Here's the first part of the `value.compile` function in _**EasyCoder**_'s `core` domain:
+
+```
+    compile: compiler => {
+        if (compiler.isSymbol()) {
+            const name = compiler.getToken();
+            const symbolRecord = compiler.getSymbolRecord();
+            switch (symbolRecord.keyword) {
+            case `module`:
+                compiler.next();
+                return {
+                    domain: `core`,
+                    type: `module`,
+                    name
+                };
+            case `variable`:
+                const type = compiler.nextToken();
+                if ([`format`, `modulo`].includes(type)) {
+                    const value = compiler.getNextValue();
+                    return {
+                        domain: `core`,
+                        type,
+                        name,
+                        value
+                    };
+                }
+                return {
+                    domain: `core`,
+                    type: `symbol`,
+                    name
+                };
+            }
+            return null;
+        }
+
+        var token = compiler.getToken();
+        if (token === `true`) {
+            compiler.next();
+            return {
+                domain: `core`,
+                type: `boolean`,
+                content: true
+            };
+        }
+        if (token === `false`) {
+            compiler.next();
+            return {
+                domain: `core`,
+                type: `boolean`,
+                content: false
+            };
+        }
+        if (token === `random`) {
+            compiler.next();
+            const range = compiler.getValue();
+            return {
+                domain: `core`,
+                type: `random`,
+                range
+            };
+        }
+        ...
+```
+It starts by checking if the current token is a symbol. The `core` domain only has 2 variable types - `module` and `variable`. The first of these has a value being the name of the module; the second either has the value of its content or it might be one of
+```
+<variable> format <format string>
+<variable> modulo <number>
+```
+In both these cases, the final item is itself a value so the compiler evaluates it recursively.
+
+If the token isn't a variable the compiler starts checking through all the other possibilities known for this domain. I only show the first three, `true`, `false` and `random`; you can see the rest by examining the `Core.js` file in the _**EasyCoder**_ repository or by studying the Programmers Reference for the [_**EasyCoder**_ Codex](https://easycoder.github.io/?s=step0) (Click the yellow book icon).
+
+~pn:3 Compilation/DOM:Domain Object Model commands:3 Compilation/Conditions:Condition handlers~
+
+# Condition handlers
+
+A _condition_ is an expression that returns `true` or `false`. In addition to the pure boolean value `false`, `null` and the number zero both equate to `false`; any other numeric value is classed as `true` in a condition.
+
+Conditions are used in `if` and `while` commands:
+```
+if N is less than 10 ...
+while Counter is greater than 0 ...
+while Text is not empty ...
+```
+The conditions in the above are
+```
+N is less than 10
+Counter is greater than 0
+Text is not empty
+```
+respectively.
+
+Compiling a condition is simpler than compiling a ~tid:Values:value~. There's a condition evaluator at the heart of the compiler; here's the complete module for _**EasyCoder**_, which calls each domain in turn to attempt compilation until one succeeds:
+```
+const EasyCoder_Condition = {
+
+	name: `EasyCoder_Condition`,
+
+	compile: (compiler) => {
+		// See if any of the domains can handle it
+		compiler.mark();
+		for (const domainName of Object.keys(compiler.domain)) {
+			// console.log(`Try domain '${domainName}' for condition`);
+			const domain = compiler.domain[domainName];
+			const code = domain.condition.compile(compiler);
+			if (code) {
+				return code;
+			}
+			compiler.rewind();
+		}
+	},
+
+	// runtime
+
+	test: (program, condition) => {
+		const handler = program.domain[condition.domain];
+		return handler.condition.test(program, condition);
+	}
+};
+```
+As before, `compiler.domain` holds a list of domain names; the code calls each one in turn until it finds one that can handle the code being presented.
+
+The condition evaluator in the `core` plugin deals with simple numeric and string comparisons; in essence, any time we are comparing one value with another. All 3 of the above are in that category. The values themselves may require a visit to a plug-in domain to compile them but the comparison is done in the core evaluator.
+
+Other plug-in modules may have special comparisons. For example, the browser plugin for _**EasyCoder**_ has a handler for the syntax
+```
+if element ThisDiv contains the pick position ...
+```
+which requires the runtime to look at the bounding rectangle of `ThisDiv` and check if a click or tap has occurred within it. The flexibility of the system lies in the way conditions can be delegated to plugin domains without the main compiler knowing anything about the tests being performed.
+
+~pn:3 Compilation/Values:Value handlers:4 Runtime:The runtime engine~
+
+# The runtime engine
+
+Once compilation is complete, its output is a _program_; a list of commands. The job of the runtime engine is to take these commands in linear order or as directed otherwise and perform the duties each one encapsulates. You could regard the commands as an assembly language for a rather special kind of processor.
+
+The runtime engine pushes the starting program counter onto the end of the queue of threads waiting to run. Once an execution thread stops, by reaching a `stop` or `wait` command, the queue is popped and the next run request starts. If this is well-behaved it too will stop or wait at some point and allow another thread to start. This behaviour creates an illusion of multi-tasking.
+
+In a system where multiple scripts may run at the same time, you can arrange for each one to have its own program and its own queue or you may set up a global queue where each entry comprises a program and its program counter.
+
+Each command contains a `domain` property that identifies which plugin domain should handle the command. Here's the core of the runtime engine in its simplest form:
+```
+    while (queue.length > 0) {
+        program.pc = queue.shift();
+        while (program.pc) {
+            const domain = program[program.pc].domain;
+            const handler = program.domain[domain];
+            if (!handler) {
+                program.runtimeError(program[program.pc].lino, `Unknown domain '${domain}'`);
+                break;
+            }
+            program.pc = handler.run(program);
+        }
+    }
+```
+Each runtime handler returns the index of the command that should follow it, or zero if there's nothing more to do. Commands continue to be executed until zero is returned.
+
+In the above, `program.domain` is the same list of domains as used by the compiler. The program is initialised with this and other properties at the time it is created.
+
+## Other runtime features
+
+Because execution always passes through the loop shown above as each command is executed, we have scope to add some more features.
+
+### Program runaway
+
+We've all done it; we've set up a program loop and forgotten to increment the loop counter inside the loop. The computer instantly becomes unresponsive and starts to overheat as it races around chasing its own tail. To guard against this you can exploit the fact that execution here is under your control. There are at least 2 options. The simplest is to count the number of commands that have been executed since the thread started, and if this reaches a suitably large number then throw an error. A slightly more complicated option is to get a system timestamp when the thread starts and check the elapsed time on each command. This might require an unacceptable system overhead so maybe do it on every 1000 commands or something similar.
+
+### Trace and debug
+
+If you add a `trace` command you can arrange for the program to stop at each command and post information about itself into a special on-screen `<div>`, then permit the user to interact with the tracer to single-step, do further inspection of variables or resume execution. This can be a very valuable tool during development. You still have the browser debugger available to show you what's happening to your JavaScript, but the tracer operates with knowledge of variable names that aren't easy to find in the low-level debugger.
+
+Trace/debug is implemented in _**EasyCoder**_. The code is all in the `Run.js` file and there's a page in the [Codex](https://easycoder.github.io?s=step10) describing the tracer and how to use it.
+
+~pn:3 Compilation/Conditions:Condition handlers:4 Runtime/Handlers:Runtime handlers~
+
+# Runtime handlers
+
+Every keyword has a runtime handler function alongside the compiler function described ~stid:3 Compilation/Handlers:earlier~. The handler for `add` looks like this:
+```
+    run: program => {
+        const command = program[program.pc];
+        const value1 = command.value1;
+        const value2 = command.value2;
+        const target = program.getSymbolRecord(command.target);
+        if (target.isVHolder) {
+            const value = target.value[target.index];
+            if (value2) {
+                const result = program.getValue(value2) +
+                    program.getValue(value1);
+                target.value[target.index] = {
+                    type: `constant`,
+                    numeric: true,
+                    content: result
+                };
+            } else {
+                if (!value.numeric && isNaN(value.content)) {
+                    program.nonNumericValueError(command.lino);
+                }
+                const result = parseInt(value.content) + parseInt(program.getValue(value1));
+                target.value[target.index] = {
+                    type: `constant`,
+                    numeric: true,
+                    content: result
+                };
+            }
+        } else {
+            program.variableDoesNotHoldAValueError(command.lino, target.name);
+        }
+        return command.pc + 1;
+    }
+```
+We start by extracting the command from the program (passed in as the single parameter) at the index given by `program.pc`. Then we get from it the two values to be added and the name of the _target_ variable - that is, where the result is going. Next we get the symbol table record for _target_ and check if it's able to hold a value. If not, we throw an error.
+
+Next we get the current value of the target, by using its array index. Remember that every variable is an array although most only ever have a single element.
+
+Now we check if there actually was a second value or whether the sum is of the form
+```
+C = C + A
+```
+If `value2` exists we can request the values to be added, do the addition and write the result back into the target array. Note that we're writing a new value specification, not just the result itself.
+
+If the second value was not present we check that the target contains a numeric value, without which it's risky to do the addition. This is a safety measure to avoid hard-to-find type conversion errors. (You may think it should also be done for the first case too, but I'm assuming that `getValue(value)` will convert strings to numbers.) So we get the integer value of each of the 2 values, add them together and post them back to the target.
+
+Finally, we return the value of the current program counter advanced by one.
+
+There's nothing to say this is the only - or even the best - way to handle all the issues involved, but it's one that I've found in practice results in very few errors.
+
+### `fork`
+
+Here's a second example; this time of the `fork` command:
+```
+    run: program => {
+        const command = program[program.pc];
+        try {
+            program.run(program.symbols[command.label].pc);
+        } catch (err) {
+            console.log(err.message);
+            alert(err.message);
+        }
+        return command.pc + 1;
+    }
+```
+This function is very short; it extracts the command as before then starts a new program thread at the address of the label given before returning the next step as before. The new thread won't run immediately because this one is still active, so it just goes onto the queue and the current thread continues with the next command. The new thread will get its day in the sun when the current one reaches a `stop` or a `wait` command.
+
+### `if`
+
+And finally, here's how the `if` command is handled:
+```
+    run: program => {
+        const command = program[program.pc];
+        const condition = command.condition;
+        const test = program.condition.test(program, condition);
+        if (test) {
+            return command.pc + 1;
+        }
+        return command.else;
+    }
+
+```
+This one extracts the command then the condition and calls the condition processor to evaluate it as `true` or `false`. It then returns either with the address of the next command or with the `else` address.
+
+~pn:4 Runtime:The runtime engine:4 Runtime/DOM:Running DOM commands~
+
+# Running DOM commands
+
+Browser commands tend to be more complex than the simple ones we've just seen, with the notable exception of variable declarations, which just return the address of the next command.
+
+Here's the browser `create` command. It's a simplified copy of the code in _**EasyCoder**_:
+```
+    run: (program) => {
+        const command = program[program.pc];
+        const targetRecord = program.getSymbolRecord(command.name);
+        let parent;
+        if (command.parent === `body`) {
+            parent = document.body;
+        } else {
+            const p = program;
+            const parentRecord = p.getSymbolRecord(command.parent);
+            parent = parentRecord.element[parentRecord.index];
+        }
+        targetRecord.element[targetRecord.index] = document.createElement(targetRecord.keyword);
+        targetRecord.element[targetRecord.index].id =
+            `ec-${targetRecord.name}-${targetRecord.index}-${EasyCoder.elementId++}`;
+        if (targetRecord.keyword === `a`) {
+            targetRecord.element[targetRecord.index].setAttribute(`href`, `#`);
+        }
+        parent.appendChild(targetRecord.element[targetRecord.index]);
+        return command.pc + 1;
+    }
+```
+As before, first we get the command, then the symbol table record for the target variable (for example a `<div>`).
+
+When we create a DOM object we can make it a direct child of the page BODY or of another DOM element. In the latter case, the parent will have been specified in the script, so we can get its record, and from that the actual DOM element (which will only exist if the parent has also been `create`d or has been `attach`ed to a suitable element in the document).
+
+Now we create a new element, giving it the type, e.g. `div`. We must give it an ID that is guaranteed to be unique; I choose to use a 3-part name comprising the variable name, its array index and a global serial number that increments for every DOM element created. This combination ID is very useful when using the browser debugger as it becomes quite clear how any element relates to the script. So a typical ID looks like
+```
+MyDiv-0-392
+```
+A special action is needed for hyperlinks; these must have an attribute set so they don't respond to clicks except via script commands. And finally we append the new element to its parent.
+
+### `on click`
+
+This is the runtime code for the following command:
+```
+on click <DOM variable> <do something>
+```
+
+This is one of the most complex parts of DOM handling. Here's a simplified version of the code extracted from the _**EasyCoder**_ handler:
+```
+    targetRecord = program.getSymbolRecord(command.symbol);
+    targetRecord.element.forEach(function (target, index) {
+        if (target) {
+            target.targetRecord = targetRecord;
+            target.targetIndex = index;
+            target.targetPc = command.pc + 2;
+            target.onclick = function (event) {
+                event.stopPropagation();
+                EasyCoder_Browser.clickData = {
+                    target,
+                    clientX: event.clientX,
+                    clientY: event.clientY
+                };
+                if (program.length > 0) {
+                    const eventTarget = event.target;
+                    if (eventTarget.type != `radio`) {
+                        eventTarget.blur();
+                    }
+                    if (typeof eventTarget.targetRecord !== `undefined`) {
+                        eventTarget.targetRecord.index = eventTarget.targetIndex;
+                        setTimeout(function () {
+                            program.run(eventTarget.targetPc);
+                        }, 1);
+                    }
+                }
+                return false;
+            };
+        }
+    });
+```
+In _**EasyCoder**_ it's common to create an array of DOM variables that respond identically to a mouse click, avoiding the need to set up a handler for each array element. So the code sets up listeners for each of the array elements.
+
+Three items of information need to be retrieved when a mouse click occurs, so these are added to the DOM element as properties. Bear in mind that at the point this code runs there hasn't yet been a mouse click; we're just setting up for when they do happen.
+
+Next we set up the `onclick` listener. The content of this is what will handle the actual click. We set up the global record `clickData` to record the target element and the click location; this is needed for drag and drop operations. We 'blur' everything except radio buttons (to remove the focus), then we set the index of the DOM variable to the one that was clicked, allowing the `<do something>` code to know which element it's dealing with.
+
+Finally, we request a new execution thread for the actions resulting from the click. It's best to do this after a short pause, otherwise the display doesn't have time to update before the actions start to take effect.
+
+This code is not guaranteed to be optimal. Slight changes tend to have unforseen effects. All I can say is that it works pretty reliably and saves a massive amount of effort compared with having to do it in JavaScript each time.
+
+## CSS
+
+You have a choice of assigning CSS classes to DOM elements or of assigning specific style values. If you want to do the former you'll need something along the lines of `set the class of <variable> to <list of classes>`. Here's the runtime code:
+```
+    symbol = program.getSymbolRecord(command.symbolName);
+    target = symbol.element[symbol.index];
+    if (!target) {
+        targetId = program.getValue(symbol.value[symbol.index]);
+        target = document.getElementById(targetId);
+    }
+    program.getValue(command.value).split(` `).forEach(function(item) {
+        target.classList.remove(item);
+        target.classList.add(item);
+    });
+
+```
+This gets the symbol record for the element, either directly from the symbol record or by using its saved ID and requesting it from the DOM. Then it splits the list of classes provided, removes each one from the target's class list and replaces it.
+
+The alternative is to set styles directly with commands such as these:
+```
+set style `text-align` of body to `center`
+set style `width` of NameInput to `15em`
+set the styles of TextPanel to `flex:2;font-weight:bold;margin-top:1em`
+```
+and here's the runtime code:
+```
+    symbol = program.getSymbolRecord(command.symbolName);
+    target = symbol.element[symbol.index];
+    if (!target) {
+        const symbolElement = symbol.value[symbol.index];
+        if (!symbolElement.type) {
+            program.runtimeError(command.lino,
+                `Variable '${symbol.name}' is not attached to a DOM element.`);
+            return 0;
+        }
+        targetId = program.getValue(symbolElement);
+        target = document.getElementById(targetId);
+    }
+    const styleValue = program.getValue(command.styleValue);
+    if (!symbol.element[symbol.index]) {
+        program.runtimeError(command.lino, `Variable '${symbol.name}' has no DOM element.`);
+        return 0;
+    }
+    switch (command.type) {
+    case `setStyle`:
+        target.style[command.styleName.content] = styleValue;
+        break;
+    case `setStyles`:
+        target.style.cssText = styleValue;
+        break;
+    }
+```
+This one presents an alternative way of getting the target element. It then either replaces all the styles on that element or just one of them, depending on what it finds in `command.type`.
+
+~pn:4 Runtime/Handlers:Runtime handlers:5 Plugins:Plugins~
+
+# Plugins and child scripts
+
+Plugins are JavaScript files containing domain handler code in a fixed format. The best way of illustrating this format is to write a plugin for a hypothetical domain. Let's assume your problem domain is that of logistics, and that one of your custom variable types is a `box`, which has features that make it useful when computing how to pack items for transport. The `box` has dimensions and weight so we need to be able to create a box, set up its properties and return information when requested. Here's a simple unit test script that exercises some of the features:
+```
+    box Box52
+    
+    create Box52
+        width 60
+        depth 40
+        height 40
+        weight 20
+    
+    print the volume of Box52
+    if Box52 is heavy print `Heavy: ` cat the weight of Box 52
+    stop
+```
+Here's the complete plugin in a form that's compatible with _**EasyCoder**_. To adapt it for your own language you probably need to do no more than globally change _**EasyCoder**_ into the name of your project. The filname is `box.js`.
+```
+const EasyCoder_Box = {
+
+	name: `EasyCoder_Box`,
+
+	BOX: {
+
+		compile: compiler => {
+			compiler.compileVariable(`box`, `box`);
+			return true;
+		},
+
+		run: program => {
+			return program[program.pc].pc + 1;
+		}
+	},
+
+	Create: {
+
+		compile: compiler => {
+			const lino = compiler.getLino();
+			if (compiler.nextIsSymbol())
+			{
+				const symbolRecord = compiler.getSymbolRecord();
+				const keyword = symbolRecord.keyword;
+				if (keyword === `box`) {
+                    let width;
+                    let depth;
+                    let height;
+                    let weight;
+                    compiler.next();
+                    while (true)
+                    {
+                        switch (compiler.getToken()) {
+                        case `width`:
+                            width = compiler.getNextValue();
+                            break;
+                        case `depth`:
+                            depth = compiler.getNextValue();
+                            break;
+                        case `height`:
+                            height = compiler.getNextValue();
+                            break;
+                        case `weight`:
+                            weight = compiler.getNextValue();
+                            break;
+                        default:
+                            compiler.addCommand({
+                                domain: `box`,
+                                keyword: `create`,
+                                name: symbolRecord.name,
+                                lino,
+                                width,
+                                depth,
+                                height,
+                                weight
+                            });
+                            return true;
+                        }
+                    }
+                 }
+			}
+			return false;
+		},
+
+		run: program => {
+			const command = program[program.pc];
+			const width = program.getValue(command.width);
+			const depth = program.getValue(command.depth);
+			const height = program.getValue(command.height);
+			const weight = program.getValue(command.weight);
+			const box = program.getSymbolRecord(command.name);
+			box.value[box.index] = {
+                width,
+                depth,
+                height,
+                weight
+			};
+			return command.pc + 1;
+		}
+	},
+
+	// Values
+	value: {
+
+		compile: compiler => {
+            compiler.skip(`the`);
+            const type = compiler.getToken();
+            if ([`width`, `depth`, `height`, `weight`, `volume`].includes(type)) {
+                compiler.next();
+                compiler.skip(`of`);
+                const name = compiler.getToken();
+                compiler.next();
+                return {
+                    domain: `box`,
+                    name,
+                    type
+                };
+            };
+            return null;
+		},
+
+		get: (program, value) => {
+            const symbolRecord = program.getSymbolRecord(value.name);
+            const record = symbolRecord.value[symbolRecord.index];
+            let content;
+            switch (value.type) {
+                case `width`:
+                    content = record.width;
+                    break;
+                case `depth`:
+                    content = record.depth;
+                    break;
+                case `height`:
+                    content = record.height;
+                    break;
+                case `weight`:
+                    content = record.weight;
+                    break;
+                case `volume`:
+                    content = record.width * record.depth * record.height / 100 / 100 / 100;
+                    break;
+            }
+            return {
+                type: `constant`,
+                numeric: true,
+                content
+            };
+			return value;
+		}
+	},
+
+	// Conditions
+	condition: {
+
+		compile: compiler => {
+            if (compiler.isSymbol()) {
+				const symbolRecord = compiler.getSymbolRecord();
+				if (symbolRecord.keyword === `box`) {
+					if (compiler.nextTokenIs(`is`)) {
+						let sense = true;
+						if (compiler.nextTokenIs(`not`)) {
+							compiler.next();
+							sense = false;
+						}
+						if (compiler.tokenIs(`heavy`)) {
+							compiler.next();
+							return {
+								domain: `box`,
+								type: `heavy`,
+								name: symbolRecord.name,
+								sense
+							}
+						}
+					}
+					return null;
+				}
+            }
+		},
+
+		test: (program, condition) => {
+            if (condition.type === `heavy`) {
+                const record = program.getSymbolRecord(condition.name);
+                const heavy = (record.value[record.index].weight >= 25);
+                return condition.sense ? heavy : !heavy;
+            }
+            return false;
+        }
+    },
+
+	// Dispatcher
+	getHandler: name => {
+		switch (name) {
+		case `box`:
+			return EasyCoder_Box.BOX;
+		case `create`:
+			return EasyCoder_Box.Create;
+		default:
+			return false;
+		}
+	},
+
+	run: program => {
+		const command = program[program.pc];
+		const handler = EasyCoder_Box.getHandler(command.keyword);
+		if (!handler) {
+			program.runtimeError(command.lino, `Unknown keyword '${command.keyword}' in 'box' package`);
+		}
+		return handler.run(program);
+	}
+};
+
+// eslint-disable-next-line no-unused-vars
+EasyCoder.domain.box = EasyCoder_Box;
+```
+At the start is a property giving the name of the module. This is for the convenience of the programmer; it may help to locate the code during debugging.
+
+Next there are handler objects for the 2 keywords implemented in this domain; `box` and `create`. Each of these contains 2 functions; `compile(compiler)` and `run(program)`.
+
+The `box` command is a variable declaration and is implemented in a standard way.
+
+The `create` command accepts the syntax shown in the example script at the top of this page, where the item is first named and then followed by a set of attributes, which can be given in any order. The function returns an object with all these items.
+
+At runtime, the command is read from the program array and the various items are extracted. An object is built to contain the current values of the 3 properties and is written to the variable.
+
+Next we have the value handler object. This contains the compiler function `compile(compiler)` and the runtime function `get(program, value)`. Between them they provide the means to access any of the properties of the box variable, plus the volume, which is computed on the fly at runtime.
+
+After this is the condition handler object. This contains the compiler function `compile(compiler)` and the runtime function `test(program, condition)`. Together they implement a single test, which returns `true` if the box weight exceeds a fixed value. Note that the core condition handler will already have checked for `not`, which if given will negate the test, as in `if Box52 is not heavy ...`
+
+Now we come to the `getHandler(name)`, the dispatcher function, which returns the handler object for any given keyword in this domain (or null if an unknown keyword is given).
+
+This is followed by the runtime function that is called by the main runtime to execute the command at the current program counter.
+
+Finally, the module posts itself into the list of domains held by the main program module, allowing the compiler to include it in searches for a suitable handler for any given keyword.
+
+~pn:4 Runtime/DOM:Running DOM commands:5 Plugins/Handling plugins:Handling plugins~
+
+# Handling plugins
+
+This is a fairly complex part of the language but well worth implementing as it gives a huge amount of power to the programmer.
+
+In order to compile a script, all of the domain handlers for the keywords it contains must already be present. A script can't request a plugin for its own code because by then the compiler is already running, and to add a new domain would mean suspending compilation while the new domain is loading. Not impossible, perhaps, but I'm assuming this is not implemented. So instead we use a 2-stage bootstrap where the extra domain(s) are called in by a boot script which loads the main script, compiles and runs it.
+
+For this we need 2 keywords: `require` and `run`, plus a `module` variable type in the core language module. The `require` syntax looks like this:
+```
+    require js <url>
+    require css <url>
+```
+and the compiler code is as follows:
+```
+	Require: {
+
+		compile: compiler => {
+			const lino = compiler.getLino();
+			const type = compiler.nextToken();
+			if ([`css`, `js`].includes(type)) {
+				const url = compiler.getNextValue();
+				compiler.addCommand({
+					domain: `core`,
+					keyword: `require`,
+					lino,
+					type,
+					url
+				});
+				return true;
+			}
+			throw new Error(`File type must be 'css' or 'js'`);
+		},
+
+		// runtime
+
+		run: program => {
+			const command = program[program.pc];
+			program.require(command.type, program.getValue(command.url),
+				function () {
+					program.run(command.pc + 1);
+				});
+			return 0;
+		}
+	},
+```
+Note that the final `return 0` causes program execution to halt while the load is happening, and `program.run(command.pc + 1)` in the callback function resumes execution once the load has completed.
+
+The `program.require()` function called by `run(program)` looks like this:
+```
+	require: function(type, src, callback) {
+		let prefix = ``;
+		if (src[0] == `/`) {
+			prefix = window.location + `/`;
+		}
+		const element = document.createElement(type === `css` ? `link` : `script`);
+		switch (type) {
+		case `css`:
+			element.type = `text/css`;
+			element.href = `${prefix}${src}`;
+			element.rel = `stylesheet`;
+			break;
+		case `js`:
+			element.type = `text/javascript`;
+			element.src = `${prefix}${src}`;
+			break;
+		default:
+			return;
+		}
+		element.onload = function () {
+			console.log(`${Date.now() - EasyCoder.timestamp} ms: Library ${prefix}${src} loaded`);
+			callback();
+		};
+		document.head.appendChild(element);
+	},
+```
+This can load either CSS or JS files, so as well as your domains being load-on-demand capable, so also can be your CSS scripts. Note the use of a leading `/` on the URL to load from a path that starts at the top-level of your website URL. This makes for portability.
+
+## Running a child script
+
+The `run()` handler looks like this:
+```
+	Run: {
+
+		compile: compiler => {
+			const lino = compiler.getLino();
+			const script = compiler.getNextValue();
+			// Get the exports, if any
+			const imports = [];
+			if (compiler.tokenIs(`with`)) {
+				while (true) {
+					if (compiler.nextIsSymbol(true)) {
+						const symbolRecord = compiler.getSymbolRecord();
+						imports.push(symbolRecord.name);
+						compiler.next();
+						if (!compiler.tokenIs(`and`)) {
+							break;
+						}
+					}
+				}
+			}
+			// Specify the module variable
+			let module;
+			if (compiler.tokenIs(`as`)) {
+				if (compiler.nextIsSymbol(true)) {
+					const moduleRecord = compiler.getSymbolRecord();
+					// moduleRecord.program = program.script;
+					compiler.next();
+					if (moduleRecord.keyword !== `module`) {
+						throw new Error(`'${moduleRecord.name}' is not a module`);
+					}
+					module = moduleRecord.name;
+				}
+			}
+			let nowait = false;
+			if (compiler.tokenIs(`nowait`)) {
+				compiler.next();
+				nowait = true;
+			}
+			const pc = compiler.getPc();
+			compiler.addCommand({
+				domain: `core`,
+				keyword: `run`,
+				lino,
+				script,
+				imports,
+				module,
+				nowait,
+				then: 0
+			});
+			// Get the 'then' code, if any
+			if (compiler.tokenIs(`then`)) {
+				const goto = compiler.getPc();
+				// Add a 'goto' to skip the 'then'
+				compiler.addCommand({
+					domain: `core`,
+					keyword: `goto`,
+					goto: 0
+				});
+				// Fixup the link to the 'then' branch
+				compiler.getCommandAt(pc).then = compiler.getPc();
+				// Process the 'then' branch
+				compiler.next();
+				compiler.compileOne(true);
+				compiler.addCommand({
+					domain: `core`,
+					keyword: `stop`
+				});
+				// Fixup the 'goto'
+				compiler.getCommandAt(goto).goto = compiler.getPc();
+			}
+			return true;
+		},
+
+		// runtime
+
+		run: program => {
+			program.nextPc = program.pc + 1;
+			program.runScript(program);
+			return 0;
+		}
+```
+This may seem a little complex but it deals with several things. As well as just running a script you also have the option of
+
+> a) adding a `with` clause to hand some of your variables to the child script
+
+> b) specifying an action to occur after the child script has completed
+
+The first of these is equivalent to passing variables by reference in other programming languages, except it's not a subroutine or function that we're sharing with; it's a completely different script that's potentially running concurrently with the first one. Having a shared variable space is a powerful feature; I'll describe it in more detail later.
+
+Since you are launching an independent program that could be sharing some of your variables, you may not be able to interact with it until it has completed some initialization. For example, imagine a child script whose sole job is to fetch the weather from a remote server when it receives a message from the parent. So we add a command that the child script runs when it is ready to interact with the parent - in this case to receive messages. I use `set ready` but you can choose any suitable syntax. The parent will block until this command is run.
+
+The use of `nowait` overrides this functionality and allows the calling script to continue immediately.
+
+Here is the `runScript(program)` function from _**EasyCoder**_:
+```
+	runScript: function (program) {
+		const command = program[program.pc];
+		const script = program.getValue(command.script);
+		const imports = command.imports;
+		imports.caller = program.script;
+		const moduleRecord = command.module ? program.getSymbolRecord(command.module) : null;
+		try {
+			EasyCoder.tokeniseAndCompile(script.split(`\n`), imports, moduleRecord, this.script, command.then);
+		} catch (err) {
+			EasyCoder.reportError(err, program, program.source);
+			if (program.onError) {
+				program.run(program.onError);
+			} else {
+				let parent = EasyCoder.scripts[program.parent];
+				if (parent && parent.onError) {
+					parent.run(parent.onError);
+				}
+			}
+			return;
+		}
+		if (command.nowait) {
+			EasyCoder.run(program.nextPc);
+		}
+	},
+```
+You can see this invokes the tokenizer and compiler to process the new script and then run it. The largest part of the function is in dealing with errors.
+
+~pn:5 Plugins:Plugins:5 Plugins/Export and import:Export and import~
+
+# Export and import
+
+As ~tid:Handling plugins:already mentioned~, the language can share variables between scripts, allowing almost any amount of functionality to be delegated. With such power comes a certain amount of danger as you may have no control over what the delegate will do with your variables.
+
+The code to specify a list of exports looks like this:
+```
+    // Get the exports, if any
+    const imports = [];
+    if (compiler.tokenIs(`with`)) {
+        while (true) {
+            if (compiler.nextIsSymbol(true)) {
+                const symbolRecord = compiler.getSymbolRecord();
+                imports.push(symbolRecord.name);
+                compiler.next();
+                if (!compiler.tokenIs(`and`)) {
+                    break;
+                }
+            }
+        }
+    }
+```
+It may seem odd to label the array `imports[]` but that's exactly what they will be when received by the child script Here we specify what they are in the parent's space; simply a matter of listing the variable names. For example:
+```
+    run Calculator with Opcode and Arg1 and Arg2
+```
+On the receiving side, the child script would start with something like this:
+```
+    import variable Opcode and variable Arg1 and variable Arg2
+```
+The names of the variables don't have to match what they were called in the parent script, but their types must match, as must the number of shared variables. Here's the code to handle importing:
+```
+	Import: {
+
+		compile: compiler => {
+			const imports = compiler.imports;
+			let caller = EasyCoder.scripts[imports.caller];
+			const program = compiler.getProgram();
+			if (imports.length) {
+				for (const name of imports) {
+					let symbolRecord = caller.getSymbolRecord(name);
+					const thisType = compiler.nextToken();
+					const exportedType = symbolRecord.keyword;
+					if (thisType === exportedType) {
+						const command = compiler.compileVariable(symbolRecord.domain, exportedType, true);
+						const newRecord = program[compiler.getSymbols()[command.name].pc];
+						newRecord.element = symbolRecord.element;
+						newRecord.exporter = symbolRecord.exporter ? symbolRecord.exporter : caller.script;
+						newRecord.exportedName = symbolRecord.name;
+						newRecord.extra = symbolRecord.extra;
+						newRecord.isVHolder = symbolRecord.isVHolder;
+						if (symbolRecord.program) {
+							newRecord.program = symbolRecord.program.script;
+						}
+						newRecord.imported = true;
+						if (!compiler.tokenIs(`and`)) {
+							break;
+						}
+					} else {
+						throw new Error(`Mismatched import variable type for '${symbolRecord.name}'`);
+					}
+				}
+				if (compiler.tokenIs(`and`)) {
+					throw new Error(`Imports do not match exports`);
+				}
+			} else {
+				compiler.next();
+			}
+			return true;
+		},
+
+		run: program => {
+			return program[program.pc].pc + 1;
+		}
+	},
+```
+This iterates the imports. For each one, we get its record from the symbol table of the calling program and compare its type with the corresponding item in the import command as shown above. If they match we then compile the variable as if it had been a regular declaration.
+
+Next we pull out the record for the variable as `newRecord` and add information from the exported variable. The important thing is to ensure the two records keep in step with each other and there are a couple of different strategies to ensure this. One is to share the actual content of the parent and child; the other is to synchronize every time the variable is read or altered. When I translated this code from Java back in 2018 I was still new to JavaScript and I couldn't figure if sharing was even possible, so I went for the second strategy. You should not assume that _**EasyCoder**_ does it the best way; the code has been subsequently governed by the rule "If it ain't broke, don't fix it".
+
+~pn:5 Plugins/Handling plugins:Handling plugins:home/Conclusion:Conclusion~
+
+# Conclusion
+
+This is the end of the book. I hope that you have found it both interesting and useful. Feedback is welcome; you can email the author at [gtanyware@gmail.com](mailto:gtanyware@gmail.com). If you go ahead and create your own language using some of the techniques decribed, or if you decide to adapt _**EasyCoder**_ for your own purposes, I will be delighted to hear how you get on.
+
+Graham Trott    
+Leeds, UK, August 2021
+
+~pn:5 Plugins/Handling plugins:Handling plugins~

@@ -82,7 +82,7 @@ Next we set up the `onclick` listener. The content of this is what will handle t
 
 Finally, we request a new execution thread for the actions resulting from the click. It's best to do this after a short pause, otherwise the display doesn't have time to update before the actions start to take effect.
 
-This code is not guaranteed to be optimal. Slight changes tend to have unforseen effects. All I can say is that it works pretty reliably and saves a massive amount of effort compared with having to do it in JavaScript each time.
+This code is not guaranteed to be optimal. Slight changes tend to have unforeseen effects. All I can say is that it works pretty reliably and saves a massive amount of effort compared with having to do it in JavaScript each time.
 
 ## CSS
 

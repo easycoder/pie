@@ -84,7 +84,7 @@ Looking at each of the functions in turn:
 
 `addCommand(command)` adds a compiled command to the program list.
 
-`addSymbol(name, pc)`adds a symbol to the symbol table by creating a property with the given name and pc value.
+`addSymbol(name, pc)` adds a symbol to the symbol table by creating a property with the given name and pc value.
 
 `mark()` saves the current index into a special variable.
 

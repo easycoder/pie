@@ -131,12 +131,12 @@ So we move over the `to`. If what follows is a symbol (variable) then the comman
 
 So we call `compiler.isSymbol()`. If this returns `true` we then call `compiler.getSymbol()` to retrieve its record from the symbol table. This is an object, one of whose fields contains the program counter value for the variable declaration. We then retrieve the full variable spec using `compiler.getCommandAt(pc)`. Inside here is a field `isVHolder`. If this is not `true` it's an error as the variable isn't one that can hold a value.
 
-At this point we use `compile.peek()` to see what comes next without advancing the token pointer. We're looking for `giving` as the signal that it's the second kind of `add` command. If so, we'll be adding the contents of the current variable to the first value we scanned, so we call `compiler.getValue()` to evaluate it. Then we move to the next token. This is assumed to be the name of the variable into which the result must be placed. (The code above doesn't check this is a value holder but perhaps it should do.) Finally we construct a command object, populating it with everything we've found, and return this to the compiler.
+At this point we use `compiler.peek()` to see what comes next without advancing the token pointer. We're looking for `giving` as the signal that it's the second kind of `add` command. If so, we'll be adding the contents of the current variable to the first value we scanned, so we call `compiler.getValue()` to evaluate it. Then we move to the next token. This is assumed to be the name of the variable into which the result must be placed. (The code above doesn't check this is a value holder but perhaps it should do.) Finally we construct a command object, populating it with everything we've found, and return this to the compiler.
 
 If `giving` wasn't found then `value2` isn't needed and a slightly different version of the command is returned.
 
 For the case where the second item was not a variable, `giving` must be present and the final item must be a variable. Based on my description above it should be quite easy to follow the logic. Note how a warning can be issued instead of throwing an error. This is because another domain may have a similar syntax but differ in some detail. The warning is optional but may help in displaying diagnostics. The function returns `false` if compilation didn't succeeed but nothing was found that could definitely be classed as an error.
 
-In the above I've glossed over `compiler.getValue()`. We'll be covering it later but in the meantime I'll describe some more keyword handler examples. Or you can go ~tid:Values:directly to it now~.
+In the above I've glossed over `compiler.getValue()`. I'll be covering it later but in the meantime I'll describe some more keyword handler examples. Or you can go ~tid:Values:directly to it now~.
 
 ~pn:3 Compilation/Variables:Compiling variables:3 Compilation/If:The `if` handler~

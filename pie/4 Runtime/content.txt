@@ -2,7 +2,7 @@
 
 Once compilation is complete, its output is a _program_; a list of commands. The job of the runtime engine is to take these commands in linear order or as directed otherwise and perform the duties each one encapsulates. You could regard the commands as an assembly language for a rather special kind of processor.
 
-The runtime engine pushes the starting program counter onto the end of the queue of threads waiting to run. Once an execution thread stops, by reaching a `stop` or `wait` command, the queue is popped and the next run request starts. If this is well-behaved it too will stop or wait at some point and allow another thread to start. This behaviour creates an illusion of multi-tasking.
+The runtime engine pushes the starting program counter onto the end of the queue of threads waiting to run. Once an execution thread stops, by reaching a `stop` or `wait` command, the queue is popped and the next run request starts. If this is well-behaved it too will stop or wait at some point and allow another thread to start. This behaviour creates an illusion of multitasking.
 
 In a system where multiple scripts may run at the same time, you can arrange for each one to have its own program and its own queue or you may set up a global queue where each entry comprises a program and its program counter.
 
