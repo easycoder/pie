@@ -1,6 +1,6 @@
 # Condition handlers
 
-A _condition_ is an expression that returns `true` or `false`. In addition to the pure boolean value `false`, `null` and the number zero both equate to `false`; any other numeric value is classed as `true` in a condition.
+A _condition_ is an expression that returns `true` or `false`. In addition to the pure boolean value `false`, `null` and the number zero all equate to `false`; any other numeric value is classed as `true` in a condition.
 
 Conditions are used in `if` and `while` commands:
 ```
