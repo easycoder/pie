@@ -3,6 +3,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
+<!--     <script type='text/javascript' src='https://easycoder.netlify.app/dist/easycoder.js?v=2.7.7'></script> -->
+    <script type='text/javascript' src='dist/easycoder.js?v=2.7.7'></script>
+    <script type='text/javascript' src='https://easycoder.netlify.app/dist/plugins/showdown.js?v=2.7.7'></script>
   </head>
 
   <body>
@@ -11,16 +14,13 @@
     <pre id="easycoder-script" style="display:none">
 
       script Boot
+      debug step
       variable Script
-      require js `https://easycoder.github.io/dist/plugins/showdown.js?v=` cat now
-
-      rest get Script from `https://cdn.jsdelivr.net/gh/easycoder/storyteller@master/storyteller.txt?v=` cat now
-!      rest get Script from `/storyteller.txt?` cat now
+!      rest get Script from `https://easystoryteller.netlify.app/storyteller.txt?v=` cat now
+      rest get Script from `/storyteller.txt?` cat now
       run Script
 
     </pre>
-
-    <script type='text/javascript' src='https://easycoder.github.io/dist/easycoder.js?v=2.7.6'></script>
 
   </body>
 </html>
